@@ -1,0 +1,16 @@
+Django
+django-nose
+djangorestframework
+djangorestframework_simplejwt
+djangorestframework-csv
+requests
+django-model-utils
+django-filter
+django-sslserver
+django-extensions
+Pillow
+pandas
+uwsgi
+pyjwt==1.7.1
+backports.lzma
+scikit-learn

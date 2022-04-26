@@ -1,0 +1,4 @@
+http://localhost:8100/api/core/companions/recommend/
+GET
+application/json
+token-auth: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjowLCJleHAiOjMyNTM2ODUwMzk5fQ.4qq7zWv-fSINXhUhnOJZZR-QOHs0UoR6FZUNlvtZ4Xc

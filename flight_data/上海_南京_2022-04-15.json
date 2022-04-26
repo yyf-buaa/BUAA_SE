@@ -1,0 +1,12 @@
+{
+  "code": "10000",
+  "charge": false,
+  "remain": 19955,
+  "msg": "查询成功",
+  "result": {
+    "status": "209",
+    "msg": "没有相关航班信息",
+    "result": ""
+  },
+  "requestId": "a387c9c4a0614be8848cf390bd7233f7"
+}

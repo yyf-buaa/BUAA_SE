@@ -1,0 +1,119 @@
+{
+  "code": "10000",
+  "charge": true,
+  "remain": 19965,
+  "msg": "查询成功,扣费",
+  "result": {
+    "status": 0,
+    "msg": "ok",
+    "result": {
+      "city": "SHA",
+      "endcity": "BJS",
+      "date": "2022-04-15",
+      "list": [
+        {
+          "flightno": "MF3126",
+          "airline": "厦门航空",
+          "realflightno": "MU5115",
+          "departportcode": "SHA",
+          "departport": "虹桥国际机场",
+          "arrivalportcode": "PEK",
+          "arrivalport": "首都国际机场",
+          "departterminal": "T2",
+          "arrivalterminal": "T2",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "15:00",
+          "arrivaltime": "17:20",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "325",
+          "stopnum": "0",
+          "costtime": "2:20",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "1490",
+              "discount": "100"
+            }
+          ],
+          "minprice": "1490",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "3U5109",
+          "airline": "四川航空",
+          "realflightno": "MU5115",
+          "departportcode": "SHA",
+          "departport": "虹桥国际机场",
+          "arrivalportcode": "PEK",
+          "arrivalport": "首都国际机场",
+          "departterminal": "T2",
+          "arrivalterminal": "T2",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "15:00",
+          "arrivaltime": "17:20",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "325",
+          "stopnum": "0",
+          "costtime": "2:20",
+          "punctualrate": "95",
+          "pricelist": [],
+          "minprice": "0",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "MU5115",
+          "airline": "东方航空",
+          "realflightno": "",
+          "departportcode": "SHA",
+          "departport": "虹桥国际机场",
+          "arrivalportcode": "PEK",
+          "arrivalport": "首都国际机场",
+          "departterminal": "T2",
+          "arrivalterminal": "T2",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "15:00",
+          "arrivaltime": "17:20",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "325",
+          "stopnum": "0",
+          "costtime": "2:20",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "1960",
+              "discount": "100"
+            }
+          ],
+          "minprice": "1960",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 0
+        }
+      ]
+    }
+  },
+  "requestId": "6ebc18d2c31c423cae9b51619ca6dfe0"
+}

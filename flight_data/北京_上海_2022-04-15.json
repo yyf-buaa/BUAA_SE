@@ -1,0 +1,96 @@
+{
+  "code": "10000",
+  "charge": true,
+  "remain": 19986,
+  "msg": "查询成功,扣费",
+  "result": {
+    "status": 0,
+    "msg": "ok",
+    "result": {
+      "city": "BJS",
+      "endcity": "SHA",
+      "date": "2022-04-15",
+      "list": [
+        {
+          "flightno": "MF3117",
+          "airline": "厦门航空",
+          "realflightno": "MU5124",
+          "departportcode": "PEK",
+          "departport": "首都国际机场",
+          "arrivalportcode": "SHA",
+          "arrivalport": "虹桥国际机场",
+          "departterminal": "T2",
+          "arrivalterminal": "T2",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "19:00",
+          "arrivaltime": "21:15",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "325",
+          "stopnum": "0",
+          "costtime": "2:15",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "1490",
+              "discount": "100"
+            }
+          ],
+          "minprice": "1490",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "MU5124",
+          "airline": "东方航空",
+          "realflightno": "",
+          "departportcode": "PEK",
+          "departport": "首都国际机场",
+          "arrivalportcode": "SHA",
+          "arrivalport": "虹桥国际机场",
+          "departterminal": "T2",
+          "arrivalterminal": "T2",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "19:00",
+          "arrivaltime": "21:15",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "325",
+          "stopnum": "0",
+          "costtime": "2:15",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "公务舱",
+              "cabincode": "J",
+              "price": "7640",
+              "discount": "390"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "1960",
+              "discount": "100"
+            }
+          ],
+          "minprice": "1960",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 0
+        }
+      ]
+    }
+  },
+  "requestId": "a32063a88b8b4d71a78280fb23442908"
+}

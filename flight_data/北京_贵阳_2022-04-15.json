@@ -1,0 +1,1427 @@
+{
+  "code": "10000",
+  "charge": true,
+  "remain": 19975,
+  "msg": "查询成功,扣费",
+  "result": {
+    "status": 0,
+    "msg": "ok",
+    "result": {
+      "city": "BJS",
+      "endcity": "KWE",
+      "date": "2022-04-15",
+      "list": [
+        {
+          "flightno": "HU7189",
+          "airline": "海南航空",
+          "realflightno": "",
+          "departportcode": "PEK",
+          "departport": "首都国际机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "T2",
+          "arrivalterminal": "T2",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "08:00",
+          "arrivaltime": "11:20",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "738",
+          "stopnum": "0",
+          "costtime": "3:20",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "公务舱",
+              "cabincode": "C",
+              "price": "6930",
+              "discount": "350"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "1980",
+              "discount": "100"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "1820",
+              "discount": "92"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "H",
+              "price": "1660",
+              "discount": "84"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "K",
+              "price": "1500",
+              "discount": "76"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1350",
+              "discount": "68"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "1190",
+              "discount": "60"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "X",
+              "price": "1070",
+              "discount": "54"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "V",
+              "price": "950",
+              "discount": "48"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "N",
+              "price": "830",
+              "discount": "42"
+            }
+          ],
+          "minprice": "1980",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 0,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 0
+        },
+        {
+          "flightno": "SC5162",
+          "airline": "山东航空",
+          "realflightno": "CA4162",
+          "departportcode": "PEK",
+          "departport": "首都国际机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "T3",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "11:45",
+          "arrivaltime": "15:15",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "320",
+          "stopnum": "0",
+          "costtime": "3:30",
+          "punctualrate": "95",
+          "pricelist": [],
+          "minprice": "0",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "ZH4162",
+          "airline": "深圳航空",
+          "realflightno": "CA4162",
+          "departportcode": "PEK",
+          "departport": "首都国际机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "T3",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "11:45",
+          "arrivaltime": "15:15",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "320",
+          "stopnum": "0",
+          "costtime": "3:30",
+          "punctualrate": "95",
+          "pricelist": [],
+          "minprice": "0",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "CA4162",
+          "airline": "中国国航",
+          "realflightno": "",
+          "departportcode": "PEK",
+          "departport": "首都国际机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "T3",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "11:45",
+          "arrivaltime": "15:15",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "320",
+          "stopnum": "0",
+          "costtime": "3:30",
+          "punctualrate": "95",
+          "pricelist": [],
+          "minprice": "0",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 0
+        },
+        {
+          "flightno": "CZ3688",
+          "airline": "南方航空",
+          "realflightno": "",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "12:05",
+          "arrivaltime": "15:00",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "738",
+          "stopnum": "0",
+          "costtime": "2:55",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "公务舱",
+              "cabincode": "J",
+              "price": "6660",
+              "discount": "336"
+            },
+            {
+              "cabinname": "公务舱",
+              "cabincode": "C",
+              "price": "5470",
+              "discount": "276"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "W",
+              "price": "2380",
+              "discount": "120"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "2380",
+              "discount": "120"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "2240",
+              "discount": "113"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "2000",
+              "discount": "101"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "H",
+              "price": "1880",
+              "discount": "95"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "U",
+              "price": "1760",
+              "discount": "89"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "A",
+              "price": "1640",
+              "discount": "83"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1520",
+              "discount": "77"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "E",
+              "price": "1290",
+              "discount": "65"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "V",
+              "price": "1170",
+              "discount": "59"
+            }
+          ],
+          "minprice": "2380",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 0
+        },
+        {
+          "flightno": "HO5912",
+          "airline": "吉祥航空",
+          "realflightno": "CZ3688",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "12:05",
+          "arrivaltime": "15:00",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "738",
+          "stopnum": "0",
+          "costtime": "2:55",
+          "punctualrate": "95",
+          "pricelist": [],
+          "minprice": "0",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "MF1522",
+          "airline": "厦门航空",
+          "realflightno": "CZ3688",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "12:05",
+          "arrivaltime": "15:00",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "738",
+          "stopnum": "0",
+          "costtime": "2:55",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "公务舱",
+              "cabincode": "J",
+              "price": "5430",
+              "discount": "274"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "2170",
+              "discount": "110"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "1970",
+              "discount": "99"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "1760",
+              "discount": "89"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1650",
+              "discount": "83"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "K",
+              "price": "1540",
+              "discount": "78"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "N",
+              "price": "1430",
+              "discount": "72"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Q",
+              "price": "1320",
+              "discount": "67"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "V",
+              "price": "1110",
+              "discount": "56"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "T",
+              "price": "980",
+              "discount": "49"
+            }
+          ],
+          "minprice": "2170",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "SC5152",
+          "airline": "山东航空",
+          "realflightno": "CA4164",
+          "departportcode": "PEK",
+          "departport": "首都国际机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "T3",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "13:20",
+          "arrivaltime": "16:45",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "320",
+          "stopnum": "0",
+          "costtime": "3:25",
+          "punctualrate": "95",
+          "pricelist": [],
+          "minprice": "0",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "ZH4164",
+          "airline": "深圳航空",
+          "realflightno": "CA4164",
+          "departportcode": "PEK",
+          "departport": "首都国际机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "T3",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "13:20",
+          "arrivaltime": "16:45",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "320",
+          "stopnum": "0",
+          "costtime": "3:25",
+          "punctualrate": "95",
+          "pricelist": [],
+          "minprice": "0",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "CA4164",
+          "airline": "中国国航",
+          "realflightno": "",
+          "departportcode": "PEK",
+          "departport": "首都国际机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "T3",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "13:20",
+          "arrivaltime": "16:45",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "320",
+          "stopnum": "0",
+          "costtime": "3:25",
+          "punctualrate": "95",
+          "pricelist": [],
+          "minprice": "0",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 0
+        },
+        {
+          "flightno": "MF1943",
+          "airline": "厦门航空",
+          "realflightno": "CZ6188",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "15:15",
+          "arrivaltime": "18:15",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "73N",
+          "stopnum": "0",
+          "costtime": "3:00",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "公务舱",
+              "cabincode": "J",
+              "price": "5430",
+              "discount": "274"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "2170",
+              "discount": "110"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "1970",
+              "discount": "99"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "1760",
+              "discount": "89"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1650",
+              "discount": "83"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "K",
+              "price": "1540",
+              "discount": "78"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "N",
+              "price": "1430",
+              "discount": "72"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Q",
+              "price": "1320",
+              "discount": "67"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "V",
+              "price": "1110",
+              "discount": "56"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "T",
+              "price": "980",
+              "discount": "49"
+            }
+          ],
+          "minprice": "2170",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "CZ6188",
+          "airline": "南方航空",
+          "realflightno": "",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "15:15",
+          "arrivaltime": "18:15",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "73N",
+          "stopnum": "0",
+          "costtime": "3:00",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "公务舱",
+              "cabincode": "J",
+              "price": "6660",
+              "discount": "336"
+            },
+            {
+              "cabinname": "公务舱",
+              "cabincode": "C",
+              "price": "5470",
+              "discount": "276"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "W",
+              "price": "2380",
+              "discount": "120"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "2380",
+              "discount": "120"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "2240",
+              "discount": "113"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "2000",
+              "discount": "101"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "H",
+              "price": "1880",
+              "discount": "95"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "U",
+              "price": "1760",
+              "discount": "89"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "A",
+              "price": "1640",
+              "discount": "83"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1520",
+              "discount": "77"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "E",
+              "price": "1290",
+              "discount": "65"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "V",
+              "price": "1170",
+              "discount": "59"
+            }
+          ],
+          "minprice": "2380",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 0
+        },
+        {
+          "flightno": "JD5861",
+          "airline": "首都航空",
+          "realflightno": "",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T2",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "15:15",
+          "arrivaltime": "18:20",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "31E",
+          "stopnum": "0",
+          "costtime": "3:05",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "1980",
+              "discount": "100"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "1820",
+              "discount": "92"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "H",
+              "price": "1660",
+              "discount": "84"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "K",
+              "price": "1500",
+              "discount": "76"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1350",
+              "discount": "68"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "1190",
+              "discount": "60"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "X",
+              "price": "1070",
+              "discount": "54"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "V",
+              "price": "950",
+              "discount": "48"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "N",
+              "price": "770",
+              "discount": "39"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "N1",
+              "price": "770",
+              "discount": "39"
+            }
+          ],
+          "minprice": "1980",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 0,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 0
+        },
+        {
+          "flightno": "MF1941",
+          "airline": "厦门航空",
+          "realflightno": "CZ6186",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "17:45",
+          "arrivaltime": "20:50",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "73M",
+          "stopnum": "0",
+          "costtime": "3:05",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "公务舱",
+              "cabincode": "J",
+              "price": "5430",
+              "discount": "274"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "2170",
+              "discount": "110"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "1970",
+              "discount": "99"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "1760",
+              "discount": "89"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1650",
+              "discount": "83"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "K",
+              "price": "1540",
+              "discount": "78"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "N",
+              "price": "1430",
+              "discount": "72"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Q",
+              "price": "1320",
+              "discount": "67"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "V",
+              "price": "1110",
+              "discount": "56"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "T",
+              "price": "980",
+              "discount": "49"
+            }
+          ],
+          "minprice": "2170",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "CZ6186",
+          "airline": "南方航空",
+          "realflightno": "",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "17:45",
+          "arrivaltime": "20:50",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "73M",
+          "stopnum": "0",
+          "costtime": "3:05",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "公务舱",
+              "cabincode": "J",
+              "price": "6660",
+              "discount": "336"
+            },
+            {
+              "cabinname": "公务舱",
+              "cabincode": "C",
+              "price": "5470",
+              "discount": "276"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "W",
+              "price": "2380",
+              "discount": "120"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "2380",
+              "discount": "120"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "2240",
+              "discount": "113"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "2000",
+              "discount": "101"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "H",
+              "price": "1880",
+              "discount": "95"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "U",
+              "price": "1760",
+              "discount": "89"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "A",
+              "price": "1640",
+              "discount": "83"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1520",
+              "discount": "77"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "E",
+              "price": "1290",
+              "discount": "65"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "V",
+              "price": "1170",
+              "discount": "59"
+            }
+          ],
+          "minprice": "2380",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 0
+        },
+        {
+          "flightno": "MF1498",
+          "airline": "厦门航空",
+          "realflightno": "CZ3654",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "19:10",
+          "arrivaltime": "22:20",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "738",
+          "stopnum": "0",
+          "costtime": "3:10",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "公务舱",
+              "cabincode": "J",
+              "price": "5430",
+              "discount": "274"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "2170",
+              "discount": "110"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "1970",
+              "discount": "99"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "1760",
+              "discount": "89"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1650",
+              "discount": "83"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "K",
+              "price": "1540",
+              "discount": "78"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "N",
+              "price": "1430",
+              "discount": "72"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Q",
+              "price": "1320",
+              "discount": "67"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "V",
+              "price": "1110",
+              "discount": "56"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "T",
+              "price": "980",
+              "discount": "49"
+            }
+          ],
+          "minprice": "2170",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "CZ3654",
+          "airline": "南方航空",
+          "realflightno": "",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T3",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "19:10",
+          "arrivaltime": "22:20",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "738",
+          "stopnum": "0",
+          "costtime": "3:10",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "公务舱",
+              "cabincode": "J",
+              "price": "6660",
+              "discount": "336"
+            },
+            {
+              "cabinname": "公务舱",
+              "cabincode": "C",
+              "price": "5470",
+              "discount": "276"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "W",
+              "price": "2380",
+              "discount": "120"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "2380",
+              "discount": "120"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "2240",
+              "discount": "113"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "2000",
+              "discount": "101"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "H",
+              "price": "1880",
+              "discount": "95"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "U",
+              "price": "1760",
+              "discount": "89"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "A",
+              "price": "1640",
+              "discount": "83"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1520",
+              "discount": "77"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "E",
+              "price": "1290",
+              "discount": "65"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "V",
+              "price": "1170",
+              "discount": "59"
+            }
+          ],
+          "minprice": "2380",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 0
+        },
+        {
+          "flightno": "NS8077",
+          "airline": "河北航空",
+          "realflightno": "",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T2",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "09:30",
+          "arrivaltime": "14:20",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "738",
+          "stopnum": "1",
+          "costtime": "4:50",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "公务舱",
+              "cabincode": "J",
+              "price": "5940",
+              "discount": "300"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "1980",
+              "discount": "100"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "1780",
+              "discount": "90"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "1580",
+              "discount": "80"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1490",
+              "discount": "75"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "K",
+              "price": "1390",
+              "discount": "70"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "N",
+              "price": "1290",
+              "discount": "65"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Q",
+              "price": "1190",
+              "discount": "60"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "V",
+              "price": "990",
+              "discount": "50"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "T",
+              "price": "790",
+              "discount": "40"
+            }
+          ],
+          "minprice": "1980",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 0
+        },
+        {
+          "flightno": "CZ9841",
+          "airline": "南方航空",
+          "realflightno": "NS8077",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T2",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "09:30",
+          "arrivaltime": "14:20",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "738",
+          "stopnum": "1",
+          "costtime": "4:50",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "2380",
+              "discount": "120"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "2240",
+              "discount": "113"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "2000",
+              "discount": "101"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "H",
+              "price": "1880",
+              "discount": "95"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "U",
+              "price": "1760",
+              "discount": "89"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "A",
+              "price": "1640",
+              "discount": "83"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1520",
+              "discount": "77"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "E",
+              "price": "1290",
+              "discount": "65"
+            }
+          ],
+          "minprice": "2380",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        },
+        {
+          "flightno": "MF7141",
+          "airline": "厦门航空",
+          "realflightno": "NS8077",
+          "departportcode": "PKX",
+          "departport": "大兴机场",
+          "arrivalportcode": "KWE",
+          "arrivalport": "龙洞堡国际机场",
+          "departterminal": "",
+          "arrivalterminal": "T2",
+          "departdate": "2022-04-15",
+          "arrivaldate": "2022-04-15",
+          "departtime": "09:30",
+          "arrivaltime": "14:20",
+          "departdateadd": 0,
+          "arrivaldateadd": 0,
+          "craft": "738",
+          "stopnum": "1",
+          "costtime": "4:50",
+          "punctualrate": "95",
+          "pricelist": [
+            {
+              "cabinname": "公务舱",
+              "cabincode": "J",
+              "price": "5430",
+              "discount": "274"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Y",
+              "price": "2170",
+              "discount": "110"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "B",
+              "price": "1970",
+              "discount": "99"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "M",
+              "price": "1760",
+              "discount": "89"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "L",
+              "price": "1650",
+              "discount": "83"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "K",
+              "price": "1540",
+              "discount": "78"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "N",
+              "price": "1430",
+              "discount": "72"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "Q",
+              "price": "1320",
+              "discount": "67"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "V",
+              "price": "1110",
+              "discount": "56"
+            },
+            {
+              "cabinname": "经济舱",
+              "cabincode": "T",
+              "price": "980",
+              "discount": "49"
+            }
+          ],
+          "minprice": "2170",
+          "airporttax": "50",
+          "fueltax": "100",
+          "food": 1,
+          "isasr": 1,
+          "iseticket": 1,
+          "iscodeshare": 1
+        }
+      ]
+    }
+  },
+  "requestId": "0cbdfe44e539417f97b788a7fb372b04"
+}
