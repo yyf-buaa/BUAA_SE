@@ -12,3 +12,4 @@ from .epidemic_info import EpidemicInfoSerializer
 from .flight import FlightSerializer,FlightPriceListSerializer
 from .blackPos import BlackPosSerializer
 from .train import TrainSerializer, TrainPriceListSerializer
+from .transfer import TransferSerializer

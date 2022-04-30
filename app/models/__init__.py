@@ -14,3 +14,4 @@ from .flight import Flight, FlightPriceList
 from .report import Report
 from .blackPos import BlackPos
 from .train import Train, TrainPriceList
+from .Transfer import Transfer

@@ -17,7 +17,7 @@ ROUTER.register(r'adminmessages', AdminMessageApis)
 ROUTER.register(r'ads', AdvertisementApis)
 ROUTER.register(r'epidemicInfo',EpidemicInfoApis)
 ROUTER.register(r'flights',FlightApis)
-
+ROUTER.register(r'trains',TrainApis)
 urlpatterns = [
     path('', include(ROUTER.urls)),
 ]

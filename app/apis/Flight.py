@@ -16,11 +16,11 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
     queryset_price = FlightPriceList.objects.all()
     serializer_class_price = FlightPriceListSerializer
     
-    # 传入flight_no返回航班的详细信息
+    # 传入flight_id返回航班的详细信息
     @action(methods=['GET'], detail=False, url_path='getFlightInfo')
     def getFlightInfo(self,request,*args, **kwargs):
-        flight_no = request.GET.get('flightno')
-        flight = Flight.objects.filter(flightno = flight_no)
+        flight_id = request.GET.get('flightid')
+        flight = Flight.objects.filter(id = flight_id)
         serializer_flight = self.serializer_class(flight,many=True)
         return Response(serializer_flight.data,status=status.HTTP_200_OK)
         
