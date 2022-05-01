@@ -22,7 +22,7 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
     @action(methods=['GET'], detail=False, url_path='getFlightInfo')
     def getFlightInfo(self,request,*args, **kwargs):
         flight_id = request.GET.get('flightid')
-        flight = Flight.objects.filter(id = flight_id).first()
+        flight = Flight.objects.filter(id = flight_id)
         serializer_flight = self.serializer_class(flight,many=True)
         return Response(serializer_flight.data,status=status.HTTP_200_OK)
         
