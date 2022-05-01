@@ -19,4 +19,4 @@ class Position(models.Model):
 class EpidemicControlInfo(models.Model):
     description = models.TextField(default='')
     time = models.DateTimeField(auto_now_add=True)
-    position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    position = models.ForeignKey(Position, related_name='epidemic', on_delete=models.CASCADE)

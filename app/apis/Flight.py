@@ -8,6 +8,8 @@ from app.serializers import FlightSerializer,FlightPriceListSerializer
 from app.utilities import permission
 from app.response import *
 from utilities import conversion, filters, permission as _permission
+import pandas
+import datetime
 
 class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                    viewsets.mixins.RetrieveModelMixin):
@@ -20,7 +22,7 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
     @action(methods=['GET'], detail=False, url_path='getFlightInfo')
     def getFlightInfo(self,request,*args, **kwargs):
         flight_id = request.GET.get('flightid')
-        flight = Flight.objects.filter(id = flight_id)
+        flight = Flight.objects.filter(id = flight_id).first()
         serializer_flight = self.serializer_class(flight,many=True)
         return Response(serializer_flight.data,status=status.HTTP_200_OK)
         
@@ -38,16 +40,23 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         flight_no = request.GET.get('flightno')
         departure = request.GET.get('departure')
         arrival = request.GET.get('arrival')
+        departdate = request.GET.get('departdate')
         # 查询航班号的信息 至 列表flight_list
         flight = Flight.objects.filter(flightno=flight_no)
         flight_list = self.serializer_class(flight, many=True)
         # 返回符合出发地-目的地的航班信息
         for i in flight_list.data:
-            if i['city'] == departure and i['endcity'] == arrival:
+            if i['city'] == departure and i['endcity'] == arrival and departdate == i['departdate']:
                 i['departtime'] = i['departtime'][:-3]
                 i['arrivaltime'] = i['arrivaltime'][:-3]
                 i['departport'] = i['departport'] + ' ' + i['departterminal']
                 i['arrivalport'] = i['arrivalport'] + ' ' + i['arrivalterminal']
+#                date1 = pandas.to_datetime(i['departdate'], format='%Y-%m-%d')
+#                date2 = pandas.to_datetime(i['arrivaldate'], format='%Y-%m-%d')
+#                nowdate = pandas.to_datetime(departdate, format='%Y-%m-%d')
+#                interval1 = nowdate - date1
+#                i['departdate'] = (date1 + datetime.timedelta(days=+interval1.days)).strftime("%Y-%m-%d")
+#                i['arrivaldate'] = (date2 + datetime.timedelta(days=+interval1.days)).strftime("%Y-%m-%d")
                 return Response(i)
         return Response(status=status.HTTP_400_BAD_REQUEST)
         
@@ -57,8 +66,20 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         request_user = _permission.user_check(request)
         if request_user <= 0:
             return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
-        departure = Position.objects.filter(adcode=AppUser.objects.filter(id=request_user).first().position_id).first().name
+        try:
+            departure = Position.objects.filter(adcode=AppUser.objects.filter(id=request_user).first().position_id).first().name
+        except:
+            return error_response(Error.NOT_LOGIN, 'Please 完善信息.', status=status.HTTP_400_BAD_REQUEST)
         arrival = request.GET.get('position')
-        flight = Flight.objects.filter(city__icontains=departure, endcity=arrival).order_by('minprice')
+        flight = Flight.objects.filter(city__icontains=departure[:-1], endcity=arrival).order_by('minprice')
         serializer_flight = self.serializer_class(flight, many=True)
-        return Response(serializer_flight, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer_flight, status=status.HTTP_200_OK)
+        
+    #直达航班查询
+    @action(methods=['GET'], detail=False, url_path='getThroughFlight')
+    def getThroughFlight(self, request, *args, **kwargs):
+        departure = request.GET.get('departure')
+        arrival = request.GET.get('arrival')
+        date = request.GET.get('date')
+        flight_set = Flight.objects.filter(city__icontains = departure,endcity__icontains = arrival, departdate = date)
+        return Response(self.serializer_class(flight_set, many=True).data,status = status.HTTP_200_OK)

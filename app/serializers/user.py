@@ -43,4 +43,4 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AppUser
-        exclude = ['time', 'password', 'collection', 'received_messages', 'unread_messages', 'openid', 'cluster', 'last_admin_message_time']
+        exclude = ['time', 'password', 'collection', 'received_messages','blackList', 'unread_messages', 'openid', 'cluster', 'last_admin_message_time']

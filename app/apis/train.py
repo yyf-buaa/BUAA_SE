@@ -134,3 +134,11 @@ class TrainApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         if station[-1] == '桥' and station[-2] =='虹':
             return station[:-2]
         return station
+        
+    @action(methods=['GET'], detail=False, url_path='getThroughTrain')
+    def getThroughTrain(self, request, *args, **kwargs):
+        departure = request.GET.get('departure')
+        arrival = request.GET.get('arrival')
+        date = request.GET.get('date')
+        train_set = Train.objects.filter(station__icontains=departure, endstation__icontains=arrival, departdate=date)
+        return Response(self.serializer_class(train_set, many=True).data, status=status.HTTP_200_OK)

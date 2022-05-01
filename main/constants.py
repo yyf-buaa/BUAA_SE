@@ -9,16 +9,16 @@ with open(BASE_DIR + '/adcode.json', 'r', encoding='utf8') as f: ADCODE = json.l
 ADCODE_DF = pd.read_csv(BASE_DIR + '/adcode.csv')
 
 ### App
-# APPID = 'wx951ebae14616ad9a'
-# APPSECRET = '2cba46ee43add4aeca979aedef92bd24'
-APPID = 'wxd3b8c5438a79609d'
-APPSECRET = 'ab2dc811bb5f830308d66ff489b049eb'
+APPID = 'wx951ebae14616ad9a'
+APPSECRET = '2cba46ee43add4aeca979aedef92bd24'
+#APPID = 'wxd3b8c5438a79609d'
+#APPSECRET = 'ab2dc811bb5f830308d66ff489b049eb'
 OPENID_LEN = 128
 SERVER_IP = '114.116.197.121'
 SERVER_HOSTNAME = 'tra-fr-2.zhouyc.cc'
 SERVER_PORT = 443
 
-APP_SHOW_STATUS = False
+APP_SHOW_STATUS = True
 
 ### Utilities
 ## UUID
