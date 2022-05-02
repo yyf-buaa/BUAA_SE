@@ -94,6 +94,7 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         blackPos = BlackPos()
         blackPos.person = AppUser.objects.filter(id = request_user).first()
         blackPos.position = Position.objects.filter(id = position).first()
+        return Response(blackPos.person.name,status = status.HTTP_200_OK)
         blackPos.save()
         return Response(True,status = status.HTTP_200_OK)
     
