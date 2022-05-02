@@ -4,7 +4,10 @@ from rest_framework.exceptions import ParseError, NotAcceptable, PermissionDenie
 from rest_framework.decorators import action
 
 from app.models import Train, TrainPriceList, AppUser, Position,FlightPriceList,Flight,Transfer
-from app.serializers import TrainSerializer, TrainPriceListSerializer,TransferSerializer
+from app.serializers import TrainSerializer, TrainPriceListSerializer,TransferSerializer, PriceTrainListSerializer
+import datetime
+
+from django.db.models import QuerySet
 from app.utilities import permission
 from app.response import *
 from utilities import conversion, filters, permission as _permission
@@ -24,6 +27,27 @@ class TrainApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         train = Train.objects.filter(id=train_id)
         serializer_flight = self.serializer_class(train, many=True)
         return Response(serializer_flight.data, status=status.HTTP_200_OK)
+        
+    # 地点廉火车推荐
+    @action(methods=['GET'], detail=False, url_path='getCheapTrain')
+    def getCheapTrain(self, request, *args, **kwargs):
+        request_user = _permission.user_check(request)
+        if request_user <= 0:
+            return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
+        try:
+            departure = AppUser.objects.filter(id=request_user).first().position.city
+        except:
+            return error_response(Error.NOT_LOGIN, 'Please 完善信息.', status=status.HTTP_400_BAD_REQUEST)
+        arrival = request.GET.get('position')
+        date = datetime.datetime.now().date()
+        trains = Train.objects.filter(station__icontains=departure[:-1], endstation__icontains=arrival)
+        priceList = TrainPriceList.objects.filter(owner_id=0)
+        for train in trains:
+            prices = TrainPriceList.objects.filter(owner=train)
+            priceList = priceList | prices
+        priceList = priceList.order_by('price')
+        serializer_train = PriceTrainListSerializer(priceList, many=True)
+        return Response(serializer_train.data, status=status.HTTP_200_OK)
 
     @action(methods=['GET'],detail=False, url_path='getTransfer')
     def getTransfer(self, request, *args, **kwargs):

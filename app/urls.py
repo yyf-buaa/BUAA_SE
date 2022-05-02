@@ -18,6 +18,7 @@ ROUTER.register(r'ads', AdvertisementApis)
 ROUTER.register(r'epidemicInfo',EpidemicInfoApis)
 ROUTER.register(r'flights',FlightApis)
 ROUTER.register(r'trains',TrainApis)
+ROUTER.register(r'plans',PlanApis)
 urlpatterns = [
     path('', include(ROUTER.urls)),
 ]

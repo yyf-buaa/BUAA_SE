@@ -10,3 +10,4 @@ from .advertisement import AdvertisementApis
 from .epidemic_info import EpidemicInfoApis
 from .Flight import FlightApis
 from .train import TrainApis
+from .plan import PlanApis

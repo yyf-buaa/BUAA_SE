@@ -2,6 +2,11 @@ from rest_framework import serializers
 from app.models.train import Train, TrainPriceList
 from utilities.mixins import PrimaryKeyNestedField
 
+class SingleTrainSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Train
+        exclude = []
+
 
 class TrainPriceListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,3 +22,9 @@ class TrainSerializer(serializers.ModelSerializer):
         exclude = []
 
 
+class PriceTrainListSerializer(serializers.ModelSerializer):
+    owner = SingleTrainSerializer(read_only=True)
+
+    class Meta:
+        model = TrainPriceList
+        exclude = []
