@@ -28,14 +28,6 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
     serializer_class = PositionSerializer
     serializer_blackPos = BlackPosSerializer
 
-    @action(methods=['POST'], detail=False, url_path='blackPos')
-    def addblackPos(self, request, *args, **kwargs):
-        blackPos = BlackPosSerializer(data=request.data)
-        if blackPos.is_valid():
-            blackPos.save()
-            return Response(True,status = status.HTTP_200_OK)
-        else:
-            return Response(False, status=status.HTTP_200_OK)
 
     @action(methods=['GET'], detail=False, url_path='subarea')
     def subarea(self, request, *args, **kwargs):
@@ -62,7 +54,9 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             return error_response(400)
         adcode, name, lon, lat = nearest(lon, lat)
         return response({'adcode': adcode, 'name': name, 'longitude': lon, 'latitude': lat})
-
+        
+        
+        
     @action(methods=['GET'], detail=False, url_path='recommend')
     def recommend(self, request, *args, **kwargs):
         count = conversion.get_int(request.query_params, 'count')
@@ -75,6 +69,12 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         serializer = self.get_serializer(queryset, many=True)
         data = serializer.data
         return Response(data={'count': len(data), 'data': data})
+
+
+    @action(methods=['POST'], detail=False, url_path='addblackPos')
+    def addblackPos(self, request, *args, **kwargs):
+        return Response(status = status.HTTP_200_OK)
+      
 
     @classmethod
     def recommend_positions(cls, request, amount=3, unique=False):

@@ -76,3 +76,6 @@
 [uWSGI] getting INI configuration from /root/TRA-TU-1/uwsgi/uwsgi.ini
 [uwsgi-static] added mapping for /static => /root/TRA-TU-1/static
 [uwsgi-static] added mapping for /static => /root/TRA-TU-1/media
+[uWSGI] getting INI configuration from /root/TRA-TU-1/uwsgi/uwsgi.ini
+[uwsgi-static] added mapping for /static => /root/TRA-TU-1/static
+[uwsgi-static] added mapping for /static => /root/TRA-TU-1/media
