@@ -4,11 +4,13 @@ from rest_framework.exceptions import ParseError, NotAcceptable, PermissionDenie
 from rest_framework.decorators import action
 
 from django.conf import settings
-from app.models import Position, AppUser, Travel,BlackPos
+from app.models import Position, AppUser, Travel,BlackPos, Plan, Companion, Comment,Flight
 from app.serializers import PositionSerializer,BlackPosSerializer
 from app.response import *
+from main.constants import *
 from utilities.location import nearest
 from utilities import conversion, permission as _permission, filters
+
 
 class PositionFilterBackend(filters.QueryFilterBackend):
     filter_fields = [
@@ -55,8 +57,37 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         adcode, name, lon, lat = nearest(lon, lat)
         return response({'adcode': adcode, 'name': name, 'longitude': lon, 'latitude': lat})
         
+    
+    @action(methods=['GET'], detail=False, url_path='hot')
+    def hot_positions(self, request, *args, **kwargs):
+        positions = Position.objects.filter(id__endswith='00')
+        positions = positions.exclude(id__endswith='0000')
+        # return Response(status=status.HTTP_200_OK)
+        for position in positions:
+            heat = 10
+            # 本地点游记
+            travels = Travel.objects.filter(owner__position__city_position=position)
+            heat += travels.count() * FACTOR_TRAVEL_CREATE_GLOBAL
+            # 游记点赞数he阅读数
+            for travel in travels:
+                heat += travel.read_total * FACTOR_TRAVEL_READ_GLOBAL + travel.likes.count() *FACTOR_TRAVEL_LIKE_GLOBAL
+            # 计划出行数
+            # plans = Plan.objects.filter(position=position)
+            # heat += plans.count() * FACTOR_PLAN_GLOBAL
+            # 同行活动
+            companions = Companion.objects.filter(owner__position__city_position=position)
+            heat += companions.count() * FACTOR_COMPANION_CREATE_GLOBAL
+            for companion in companions:
+                heat += companion.fellows.count() * FACTOR_COMPANION_PARTICIPATE_GLOBAL
+            # 航班数
+            flights = Flight.objects.filter(endcity=position.name[:-1])
+            heat += flights.count() * FACTOR_FLIGHT
+            position.heat = heat
+        hot = positions.order_by('heat')[:3]
+        hot = self.serializer_class(hot, many=True)
+        return Response(hot.data, status=status.HTTP_200_OK)   
         
-        
+                
     @action(methods=['GET'], detail=False, url_path='recommend')
     def recommend(self, request, *args, **kwargs):
         count = conversion.get_int(request.query_params, 'count')
@@ -69,13 +100,7 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         serializer = self.get_serializer(queryset, many=True)
         data = serializer.data
         return Response(data={'count': len(data), 'data': data})
-
-
-    @action(methods=['POST'], detail=False, url_path='addblackPos')
-    def addblackPos(self, request, *args, **kwargs):
-        return Response(status = status.HTTP_200_OK)
       
-
     @classmethod
     def recommend_positions(cls, request, amount=3, unique=False):
         owner_id = _permission.user_check(request)

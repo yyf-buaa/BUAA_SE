@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ParseError, NotAcceptable, PermissionDenied
 from rest_framework.decorators import action
 
-from app.models import Flight,FlightPriceList,AppUser, Position,Address
+from app.models import Flight,FlightPriceList,AppUser, Position,Address,BlackPos,AppUser,Position
 from app.serializers import FlightSerializer,FlightPriceListSerializer
 from app.utilities import permission
 from app.response import *
@@ -84,7 +84,16 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         date = request.GET.get('date')
         flight_set = Flight.objects.filter(city__icontains = departure,endcity__icontains = arrival, departdate = date)
         return Response(self.serializer_class(flight_set, many=True).data,status = status.HTTP_200_OK)
-    
+        
     @action(methods=['POST'], detail=False, url_path='addblackPos')
     def addblackPos(self, request, *args, **kwargs):
-        return Response(status = status.HTTP_200_OK)
+        request_user = _permission.user_check(request)
+        if request_user <= 0:
+            return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
+        position = request.data.get('position')
+        blackPos = BlackPos()
+        blackPos.person = AppUser.objects.filter(id = request_user).first()
+        blackPos.position = Position.objects.filter(id = position).first()
+        blackPos.save()
+        return Response(True,status = status.HTTP_200_OK)
+    

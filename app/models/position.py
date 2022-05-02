@@ -14,6 +14,7 @@ class Position(models.Model):
     cover = models.ForeignKey(Image, related_name='positions', null=True, on_delete=models.CASCADE)
     images = models.ManyToManyField(Image, related_name='position_owner')
     visibility = models.BooleanField(default=False)
+    heat = models.IntegerField(default=10)
 
 
 class EpidemicControlInfo(models.Model):
