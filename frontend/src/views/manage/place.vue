@@ -58,11 +58,11 @@
           </a-descriptions-item>
           <a-descriptions-item label="地点描述" :span="3" :key="descriptionEditable">
             <div v-if="data[pane.key-1].descriptionEditable">
-              <a-textarea v-model="data[pane.key-1].description" style="width: 700px" auto-size/>
+              <a-textarea v-model="data[pane.key-1].description" style="width: 700px;min-height: 150px;" auto-size/>
               <a-button style="margin-left: 40px; width: 64px; height: 32px" type="primary" @click="descriptionSave">保存</a-button>
               <a-button style="margin-left: 20px; width: 64px; height: 32px" @click="descriptionCancel">取消</a-button>
             </div>
-            <div v-else >
+            <div v-else style="width: 700px;word-wrap:break-word;white-space: pre-line;">
               {{ data[pane.key-1].description }}
               <a-icon
                 type="edit"
@@ -79,6 +79,22 @@
             <div v-for="item in data[pane.key-1].placeImages" :key="item">
               <img :src="item" width="200" alt="">
               <a-button style="margin-left: 40px; width: 64px; height: 32px" type="primary" @click="deletePlaceImages(item)">删除</a-button>
+            </div>
+          </a-descriptions-item>
+          <a-descriptions-item label="防疫公告" :span="3" :key="noticeEditable">
+            <div v-if="data[pane.key-1].noticeEditable" style="width: 700px;">
+              <a-textarea v-model="data[pane.key-1].notice" style="width: 700px; min-height: 150px;" auto-size/>
+              <a-button style="margin-left: 40px; width: 64px; height: 32px" type="primary" @click="noticeSave">保存</a-button>
+              <a-button style="margin-left: 20px; width: 64px; height: 32px" @click="noticeCancel">取消</a-button>
+            </div>
+            <div v-else style="width: 700px;word-wrap:break-word;white-space: pre-line;">
+              {{ data[pane.key-1].notice }}
+              <a-icon
+                type="edit"
+                theme="twoTone"
+                style="fontSize: 18px;"
+                @click="noticeEdit"
+              />
             </div>
           </a-descriptions-item>
         </a-descriptions>
@@ -106,6 +122,11 @@ const columns = [
   {
     title: '地点名称',
     dataIndex: 'name',
+  },
+  {
+    title: '防疫公告',
+    dataIndex: 'notice',
+    ellipsis: true,
   },
   {
     title: '地点状态',
@@ -141,6 +162,7 @@ export default {
       confirmLoading: false,
       ModalText: '您的登录信息已过期，请重新登录',
       descriptionEditable: "",
+      noticeEditable: "",
       addImgModalVisible: false,
       updateCoverModalVisible: false,
       placeId: "",
@@ -305,6 +327,39 @@ export default {
       this.data[this.activeKey-1].descriptionEditable = true;
       this.descriptionEditable = this.activeKey - 1 + "" + "true";
     },
+    noticeSave() {
+      this.$axios({
+        method: "post",
+        url: 'api/admin/position/updateEpidemicInfo/',
+        params: {},
+        headers: {
+          Authorization: localStorage.getItem('Authorization')
+        },
+        data: {
+          "position":this.data[this.activeKey-1].id,
+          "notice": this.data[this.activeKey-1].notice
+        }
+      }).then((res) => {
+        console.log(res);
+      }).catch((error) => {
+        if (error.response.status == 403) {
+          this.visible = true;
+        }
+      });
+      console.log(this.data[this.activeKey-1])
+      this.data[this.activeKey-1].noticeEditable = false;
+      this.noticeEditable = this.activeKey - 1 + "" + "false";
+    },
+    noticeCancel() {
+      this.data[this.activeKey-1].notice = this.data[this.activeKey-1].preNotice;
+      this.data[this.activeKey-1].noticeEditable = false;
+      this.noticeEditable = this.activeKey - 1 + "" + "false";
+    },
+    noticeEdit() {
+      this.data[this.activeKey-1].preNotice = this.data[this.activeKey-1].notice;
+      this.data[this.activeKey-1].noticeEditable = true;
+      this.noticeEditable = this.activeKey - 1 + "" + "true";
+    },
     getPlaces(p) {
       this.spinning = true;
       this.$axios({
@@ -326,9 +381,13 @@ export default {
           item.preDescription = item.description;
           item.placeImages = [];
           item.images.forEach((image) => {
-            item.placeImages.push("https://tra-fr-2.zhouyc.cc/api/core/images/" + image + "/data/");
+            item.placeImages.push("https://114.116.197.121/api/core/images/" + image + "/data/");
           })
-          item.placeCover = "https://tra-fr-2.zhouyc.cc/api/core/images/" + item.cover + "/data/";
+          item.placeCover = "https://114.116.197.121/api/core/images/" + item.cover + "/data/";
+          if (item.epidemic !== undefined && item.epidemic.length > 0) {
+            item.notice = item.epidemic[0].description;
+          }else item.notice = "暂无";
+          item.preNotice = item.notice;
         })
         this.panes[0].data = this.data;
         this.spinning = false;

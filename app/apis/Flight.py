@@ -134,3 +134,49 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         for blackPos in blackPos_set:
             position_list.append(blackPos.position)
         return Response(PositionSerializer(position_list, many=True).data, status=status.HTTP_200_OK)
+    @action(methods=['POST'], detail=False, url_path='isMyBlackPos')
+    def isMyBlackPos(self, request, *args, **kwargs):
+        request_user = _permission.user_check(request)
+        if request_user <= 0:
+            return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
+        position = request.data.get('position')
+        blackPos_set = BlackPos.objects.filter(person=request_user, type='黑名单',position = position)
+        position_list = []
+        if len(blackPos_set)>0:
+            return Response(True, status=status.HTTP_200_OK)
+        else:
+            return Response(False, status=status.HTTP_200_OK)
+
+
+    @action(methods=['POST'], detail=False, url_path='isMyFavorites')
+    def isMyFavorites(self, request, *args, **kwargs):
+        request_user = _permission.user_check(request)
+        if request_user <= 0:
+            return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
+        position = request.data.get('position')
+        blackPos_set = BlackPos.objects.filter(person=request_user, type='收藏',position = position)
+        position_list = []
+        if len(blackPos_set)>0:
+            return Response(True, status=status.HTTP_200_OK)
+        else:
+            return Response(False, status=status.HTTP_200_OK)
+
+    @action(methods=['POST'], detail=False, url_path='deleteMyBlackPos')
+    def deleteMyBlackPos(self, request, *args, **kwargs):
+        request_user = _permission.user_check(request)
+        if request_user <= 0:
+            return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
+        position = request.data.get('position')
+        blackPos_set = BlackPos.objects.filter(person=request_user, type='黑名单',position = position)
+        blackPos_set.delete()
+        return Response(True, status=status.HTTP_200_OK)
+
+    @action(methods=['POST'], detail=False, url_path='deleteMyFavorites')
+    def deleteMyFavorites(self, request, *args, **kwargs):
+        request_user = _permission.user_check(request)
+        if request_user <= 0:
+            return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
+        position = request.data.get('position')
+        blackPos_set = BlackPos.objects.filter(person=request_user, type='收藏',position = position)
+        blackPos_set.delete()
+        return Response(True, status=status.HTTP_200_OK)
