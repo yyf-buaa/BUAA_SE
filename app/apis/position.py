@@ -57,12 +57,25 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         adcode, name, lon, lat = nearest(lon, lat)
         return response({'adcode': adcode, 'name': name, 'longitude': lon, 'latitude': lat})
         
+    @action(methods=['GET'], detail=False, url_path='trafficPositions')
+    def trafficPositions(self, request, *args, **kwargs):
+        positions = Position.objects.all()
+        positions = positions.exclude(name__endswith='自治区')
+        positions = positions.exclude(name__endswith='省')
+        positions = positions.exclude(name__endswith='特别行政区')
+        
+        positions = positions.exclude(name__endswith='自治州')
+        positions = positions.exclude(name__endswith='旗')
+        positions = positions.exclude(name__endswith='区')
+        position = self.serializer_class(positions, many=True)
+        return Response(position.data, status=status.HTTP_200_OK)
     
     @action(methods=['GET'], detail=False, url_path='hot')
     def hot_positions(self, request, *args, **kwargs):
         positions = Position.objects.filter(id__endswith='00')
         positions = positions.exclude(id__endswith='0000')
-        # return Response(status=status.HTTP_200_OK)
+        addp = Position.objects.filter(id__endswith='0000', name__endswith='市')
+        positions = positions | addp
         for position in positions:
             heat = 10
             # 本地点游记
@@ -84,10 +97,16 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             heat += flights.count() * FACTOR_FLIGHT
             setattr(position, 'heat', heat)
             position.save()
-        hot = positions.order_by('-heat')[:3]
+        owner_id = 1
+        user = AppUser.objects.filter(id=owner_id)
+        if user:
+            user = user.first()
+            blackp = BlackPos.objects.filter(person=user)
+            for black in blackp:
+                positions = positions.exclude(id=black.position_id)
+        hot = positions.order_by('-heat')
         hot = self.serializer_class(hot, many=True)
         return Response(hot.data, status=status.HTTP_200_OK)   
-        
                 
     @action(methods=['GET'], detail=False, url_path='recommend')
     def recommend(self, request, *args, **kwargs):
