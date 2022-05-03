@@ -82,8 +82,9 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             # 航班数
             flights = Flight.objects.filter(endcity=position.name[:-1])
             heat += flights.count() * FACTOR_FLIGHT
-            position.heat = heat
-        hot = positions.order_by('heat')[:3]
+            setattr(position, 'heat', heat)
+            position.save()
+        hot = positions.order_by('-heat')[:3]
         hot = self.serializer_class(hot, many=True)
         return Response(hot.data, status=status.HTTP_200_OK)   
         

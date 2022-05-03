@@ -40,7 +40,7 @@ class TrainApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             return error_response(Error.NOT_LOGIN, 'Please 完善信息.', status=status.HTTP_400_BAD_REQUEST)
         arrival = request.GET.get('position')
         date = datetime.datetime.now().date()
-        trains = Train.objects.filter(station__icontains=departure[:-1], endstation__icontains=arrival)
+        trains = Train.objects.filter(station__icontains=departure[:-1], endstation__icontains=arrival, departdate = date)
         priceList = TrainPriceList.objects.filter(owner_id=0)
         for train in trains:
             prices = TrainPriceList.objects.filter(owner=train)
