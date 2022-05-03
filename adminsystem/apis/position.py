@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from django.db.models import Sum, F, Count, Q
 
 from app.models import Position, Image
+from app.models.position import EpidemicControlInfo
 from adminsystem.serializers import PositionSerializer
 from app.response import *
 from django.conf import settings
@@ -37,6 +38,20 @@ class PositionApis(viewsets.ModelViewSet):
         objs = self.get_queryset().filter(id__in=ids)
         objs.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(methods=['POST'], detail=False, url_path='updateEpidemicInfo')
+    def updateEpidemicInfo(self, request, *args, **kwargs):
+        position_id = request.data.get('position')
+        notice = request.data.get('notice')
+        info_set = EpidemicControlInfo.objects.filter(position = position_id)
+        if len(info_set)>0:
+            info_set.update(description = notice)
+        else:
+            epidemicInfo = EpidemicControlInfo()
+            epidemicInfo.position = Position.objects.filter(id = position_id).first()
+            epidemicInfo.description = notice
+            epidemicInfo.save()
+        return Response(True)
 
     @action(methods=['POST'], detail=False, url_path='reset')
     def reset(self, request, *args, **kwargs):

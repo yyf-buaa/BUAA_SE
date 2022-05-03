@@ -28,7 +28,7 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             from1 = request.data.get('from1')
             to1 = request.data.get('to1')
             plan = Plan()
-            plan.owner = request
+            plan.owner = AppUser.objects.filter(id=request_user).first()
             plan.content = id1+':'+type1+':'+from1+'+'+to1
             plan.save()
         else:
@@ -71,7 +71,7 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 result.type2 = None
                 result.from2 = None
                 result.to2 = None
-        else:
+            else:
                 #换乘
                 result = Plan_Ser()
                 content1 = transfer[0]
@@ -85,5 +85,70 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 result.type2 = content2.split(':')[1]
                 result.from2 = content2.split(':')[2].split('+')[0]
                 result.to2 = content2.split(':')[2].split('+')[1]
-        result_list.append(result)
+            result_list.append(result)
         return Response(PlanSerSerializer(result_list,many=True).data,status = status.HTTP_200_OK)
+
+    #查询一个交通计划是否已经添加
+    @action(methods=['POST'], detail=False, url_path='searchMyPlan')
+    def searchMyPlan(self,request, *args, **kwargs):
+        request_user = _permission.user_check(request)
+        if request_user <= 0:
+            return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
+        type = request.data.get('type')
+        if type == '直达':
+            id1 = request.data.get('id1')
+            type1 = request.data.get('type1')
+            from1 = request.data.get('from1')
+            to1 = request.data.get('to1')
+            owner = AppUser.objects.filter(id=request_user).first()
+            content = id1 + ':' + type1 + ':' + from1 + '+' + to1
+            plan_set = Plan.objects.filter(owner = owner,content=content)
+            if len(plan_set)>0:
+                return Response(True, status=status.HTTP_200_OK)
+            else:
+                return Response(False, status=status.HTTP_200_OK)
+        else:
+            id1 = request.data.get('id1')
+            type1 = request.data.get('type1')
+            from1 = request.data.get('from1')
+            to1 = request.data.get('to1')
+            id2 = request.data.get('id2')
+            type2 = request.data.get('type2')
+            from2 = request.data.get('from2')
+            to2 = request.data.get('to2')
+            owner = AppUser.objects.filter(id=request_user).first()
+            content = id1 + ':' + type1 + ':' + from1 + '+' + to1 + '-' + id2 + ':' + type2 + ':' + from2 + '+' + to2
+            plan_set = Plan.objects.filter(owner=owner, content=content)
+            if len(plan_set) > 0:
+                return Response(True, status=status.HTTP_200_OK)
+            else:
+                return Response(False, status=status.HTTP_200_OK)
+
+    #删除一个出行计划
+    @action(methods=['POST'], detail=False, url_path='deleteMyPlan')
+    def deleteMyPlan(self,request, *args, **kwargs):
+        request_user = _permission.user_check(request)
+        if request_user <= 0:
+            return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
+        type = request.data.get('type')
+        if type == '直达':
+            id1 = request.data.get('id1')
+            type1 = request.data.get('type1')
+            from1 = request.data.get('from1')
+            to1 = request.data.get('to1')
+            owner = AppUser.objects.filter(id=request_user).first()
+            content = id1 + ':' + type1 + ':' + from1 + '+' + to1
+            Plan.objects.filter(owner = owner,content=content).delete()
+        else:
+            id1 = request.data.get('id1')
+            type1 = request.data.get('type1')
+            from1 = request.data.get('from1')
+            to1 = request.data.get('to1')
+            id2 = request.data.get('id2')
+            type2 = request.data.get('type2')
+            from2 = request.data.get('from2')
+            to2 = request.data.get('to2')
+            owner = AppUser.objects.filter(id=request_user).first()
+            content = id1 + ':' + type1 + ':' + from1 + '+' + to1 + '-' + id2 + ':' + type2 + ':' + from2 + '+' + to2
+            Plan.objects.filter(owner=owner, content=content).delete()
+        return Response(True,status=status.HTTP_200_OK)
