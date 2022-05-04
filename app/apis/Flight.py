@@ -175,7 +175,7 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
 
 
     @action(methods=['GET'], detail=False, url_path='getMyBlackPos')
-    def getMyFavorites(self, request, *args, **kwargs):
+    def getMyBlackPos(self, request, *args, **kwargs):
         request_user = _permission.user_check(request)
         if request_user <= 0:
             return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
