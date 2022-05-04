@@ -59,14 +59,7 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         
     @action(methods=['GET'], detail=False, url_path='trafficPositions')
     def trafficPositions(self, request, *args, **kwargs):
-        positions = Position.objects.all()
-        positions = positions.exclude(name__endswith='自治区')
-        positions = positions.exclude(name__endswith='省')
-        positions = positions.exclude(name__endswith='特别行政区')
-        
-        positions = positions.exclude(name__endswith='自治州')
-        positions = positions.exclude(name__endswith='旗')
-        positions = positions.exclude(name__endswith='区')
+        positions = Position.objects.filter(name__endswith='市')
         position = self.serializer_class(positions, many=True)
         return Response(position.data, status=status.HTTP_200_OK)
     
@@ -97,16 +90,17 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             heat += flights.count() * FACTOR_FLIGHT
             setattr(position, 'heat', heat)
             position.save()
-        owner_id = 1
+        owner_id = _permission.user_check(request)
         user = AppUser.objects.filter(id=owner_id)
         if user:
             user = user.first()
             blackp = BlackPos.objects.filter(person=user)
             for black in blackp:
                 positions = positions.exclude(id=black.position_id)
-        hot = positions.order_by('-heat')
+        hot = positions.order_by('-heat')[:30]
         hot = self.serializer_class(hot, many=True)
-        return Response(hot.data, status=status.HTTP_200_OK)   
+        return Response(data={'count': positions.count(), 'pages': positions.count()//20 + 1, "next":"", 'previous':"",
+                              'result':hot.data}, status=status.HTTP_200_OK) 
                 
     @action(methods=['GET'], detail=False, url_path='recommend')
     def recommend(self, request, *args, **kwargs):

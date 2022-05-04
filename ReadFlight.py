@@ -25,8 +25,8 @@ def readJson(filename, conn):
 
     flightList = result['list']
 
-    date0 = pandas.to_datetime('2022-05-01', format='%Y-%m-%d')
-    for i in range(7):
+    date0 = pandas.to_datetime('2022-05-04', format='%Y-%m-%d')
+    for i in range(4):
 
         for flight in flightList:
             flightno = flight['flightno']
@@ -116,8 +116,8 @@ def readJson(filename, conn):
                 price = cabinprice['price']
                 discount = cabinprice['discount']
                 #  todo 加入FlightPriceList表
-                sql2 = "insert into app_flightpricelist(owner_id, cabinname, cabincode, price, discount) Values ((select id from app_flight where flightno='%s' and city='%s' and endcity='%s'), '%s', '%s', '%s', '%s')"
-                rows = conn.execute(sql2 % (flightno, city, endcity,
+                sql2 = "insert into app_flightpricelist(owner_id, cabinname, cabincode, price, discount) Values ((select id from app_flight where flightno='%s' and city='%s' and endcity='%s' and departdate='%s'), '%s', '%s', '%s', '%s')"
+                rows = conn.execute(sql2 % (flightno, city, endcity, departdate,
                                             cabinname,
                                             cabincode,
                                             price,

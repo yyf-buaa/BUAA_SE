@@ -102,120 +102,120 @@ def readTrain(filename, conn):
                 priceed_2 = arrivalInfo['priceed']  # 二等座
 
                 if (pricesw_1 == "-" or sequenceno1 == 1) and (not pricesw_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "商务座", pricesw_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "商务座", pricesw_2))
                     conn.commit()
                 elif (not pricesw_1 == "-") and (not pricesw_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "商务座", pricesw_2 - pricesw_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "商务座", pricesw_2 - pricesw_1))
                     conn.commit()
 
                 if (pricetd_1 == "-" or sequenceno1 == 1) and (not pricetd_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "特等座", pricetd_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "特等座", pricetd_2))
                     conn.commit()
                 elif (not pricetd_1 == "-") and (not pricetd_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "特等座", pricetd_2 - pricetd_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "特等座", pricetd_2 - pricetd_1))
                     conn.commit()
 
                 if (pricerz_1 == "-" or sequenceno1 == 1) and (not pricerz_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "软座", pricerz_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "软座", pricerz_2))
                     conn.commit()
                 elif (not pricerz_1 == "-") and (not pricerz_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "软座", pricerz_2 - pricerz_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "软座", pricerz_2 - pricerz_1))
                     conn.commit()
 
                 if (priceyz_1 == "-" or sequenceno1 == 1) and (not priceyz_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "硬座", priceyz_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "硬座", priceyz_2))
                     conn.commit()
                 elif (not priceyz_1 == "-") and (not priceyz_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "硬座", priceyz_2 - priceyz_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "硬座", priceyz_2 - priceyz_1))
                     conn.commit()
 
                 if (pricegr1_1 == "-" or sequenceno1 == 1) and (not pricegr1_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "高级软卧上铺", pricegr1_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "高级软卧上铺", pricegr1_2))
                     conn.commit()
                 elif (not pricegr1_1 == "-") and (not pricegr1_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "高级软卧上铺", pricegr1_2 - pricegr1_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "高级软卧上铺", pricegr1_2 - pricegr1_1))
                     conn.commit()
 
                 if (pricegr2_1 == "-" or sequenceno1 == 1) and (not pricegr2_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "高级软卧下铺", pricegr2_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "高级软卧下铺", pricegr2_2))
                     conn.commit()
                 elif (not pricegr2_1 == "-") and (not pricegr2_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "高级软卧下铺", pricegr2_2 - pricegr2_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "高级软卧下铺", pricegr2_2 - pricegr2_1))
                     conn.commit()
 
                 if (pricerw1_1 == "-" or sequenceno1 == 1) and (not pricerw1_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "软卧上铺", pricerw1_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "软卧上铺", pricerw1_2))
                     conn.commit()
                 elif (not pricerw1_1 == "-") and (not pricerw1_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "软卧上铺", pricerw1_2 - pricerw1_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "软卧上铺", pricerw1_2 - pricerw1_1))
                     conn.commit()
 
                 if (pricerw2_1 == "-" or sequenceno1 == 1) and (not pricerw2_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "软卧下铺", pricerw2_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "软卧下铺", pricerw2_2))
                     conn.commit()
                 elif (not pricerw2_1 == "-") and (not pricerw2_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "软卧下铺", pricerw2_2 - pricerw2_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "软卧下铺", pricerw2_2 - pricerw2_1))
                     conn.commit()
 
                 if (priceyw1_1 == "-" or sequenceno1 == 1) and (not priceyw1_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "硬卧上铺", priceyw1_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "硬卧上铺", priceyw1_2))
                     conn.commit()
                 elif (not priceyw1_1 == "-") and (not priceyw1_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "硬卧上铺", priceyw1_2 - priceyw1_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "硬卧上铺", priceyw1_2 - priceyw1_1))
                     conn.commit()
 
                 if (priceyw2_1 == "-" or sequenceno1 == 1) and (not priceyw2_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "硬卧中铺", priceyw2_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "硬卧中铺", priceyw2_2))
                     conn.commit()
                 elif (not priceyw2_1 == "-") and (not priceyw2_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "硬卧中铺", priceyw2_2 - priceyw2_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "硬卧中铺", priceyw2_2 - priceyw2_1))
                     conn.commit()
 
                 if (priceyw3_1 == "-" or sequenceno1 == 1) and (not priceyw3_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "硬卧下铺", priceyw3_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "硬卧下铺", priceyw3_2))
                     conn.commit()
                 elif (not priceyw3_1 == "-") and (not priceyw3_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "硬卧下铺", priceyw3_2 - priceyw3_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "硬卧下铺", priceyw3_2 - priceyw3_1))
                     conn.commit()
 
                 if (priceyd_1 == "-" or sequenceno1 == 1) and (not priceyd_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "一等座", priceyd_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "一等座", priceyd_2))
                     conn.commit()
                 elif (not priceyd_1 == "-") and (not priceyd_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "一等座", priceyd_2 - priceyd_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "一等座", priceyd_2 - priceyd_1))
                     conn.commit()
 
                 if (priceed_1 == "-" or sequenceno1 == 1) and (not priceed_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "二等座", priceed_2))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "二等座", priceed_2))
                     conn.commit()
                 elif (not priceed_1 == "-") and (not priceed_2 == "-"):
-                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s'), '%s', '%s')"
-                    rows = conn.execute(sql2 % (trainno, departure, arrival, "二等座", priceed_2 - priceed_1))
+                    sql2 = "insert into app_trainpricelist(owner_id, type, price) Values ((select id from app_train where trainno='%s' and station='%s' and endstation='%s' and departdate='%s'), '%s', '%s')"
+                    rows = conn.execute(sql2 % (trainno, departure, arrival, departdate, "二等座", priceed_2 - priceed_1))
                     conn.commit()
 
 

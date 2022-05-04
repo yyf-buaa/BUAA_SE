@@ -116,7 +116,7 @@ class TrainApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 total_price = flight1.minprice+train2_price
                 if total_price < min_price:
                     min_price = total_price
-                    transfer3.id1 = train1.id
+                    transfer3.id1 = flight1.id
                     transfer3.type1 = '飞机'
                     transfer3.id2 = train2.id
                     transfer3.type2 = '火车'
@@ -138,10 +138,10 @@ class TrainApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 total_price = train1_price + flight2.minprice
                 if total_price < min_price:
                     min_price = total_price
-                    transfer1.id1 = flight1.id
-                    transfer1.type1 = '火车'
-                    transfer1.id2 = flight2.id
-                    transfer1.type2 = '飞机'
+                    transfer4.id1 = train1.id
+                    transfer4.type1 = '火车'
+                    transfer4.id2 = flight2.id
+                    transfer4.type2 = '飞机'
         transfer = [transfer1,transfer2,transfer3,transfer4]
 
         return Response(self.serializer_class_transfer(transfer,many=True).data,status=status.HTTP_200_OK)

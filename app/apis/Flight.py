@@ -40,26 +40,22 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
     @action(methods=['GET'], detail=False, url_path='getFlightNo')
     def getFlightNo(self, request, *args, **kwargs):
         flight_no = request.GET.get('flightno')
-        departure = request.GET.get('departure')
-        arrival = request.GET.get('arrival')
-        departdate = request.GET.get('departdate')
         # 查询航班号的信息 至 列表flight_list
         flight = Flight.objects.filter(flightno=flight_no)
         flight_list = self.serializer_class(flight, many=True)
         # 返回符合出发地-目的地的航班信息
-        for i in flight_list.data:
-            if i['city'] == departure and i['endcity'] == arrival and departdate == i['departdate']:
-                i['departtime'] = i['departtime'][:-3]
-                i['arrivaltime'] = i['arrivaltime'][:-3]
-                i['departport'] = i['departport'] + ' ' + i['departterminal']
-                i['arrivalport'] = i['arrivalport'] + ' ' + i['arrivalterminal']
-                #                date1 = pandas.to_datetime(i['departdate'], format='%Y-%m-%d')
-                #                date2 = pandas.to_datetime(i['arrivaldate'], format='%Y-%m-%d')
-                #                nowdate = pandas.to_datetime(departdate, format='%Y-%m-%d')
-                #                interval1 = nowdate - date1
-                #                i['departdate'] = (date1 + datetime.timedelta(days=+interval1.days)).strftime("%Y-%m-%d")
-                #                i['arrivaldate'] = (date2 + datetime.timedelta(days=+interval1.days)).strftime("%Y-%m-%d")
-                return Response(i)
+        for i in flight_list.data:          
+              i['departtime'] = i['departtime'][:-3]
+              i['arrivaltime'] = i['arrivaltime'][:-3]
+              i['departport'] = i['departport'] + ' ' + i['departterminal']
+              i['arrivalport'] = i['arrivalport'] + ' ' + i['arrivalterminal']
+              #                date1 = pandas.to_datetime(i['departdate'], format='%Y-%m-%d')
+              #                date2 = pandas.to_datetime(i['arrivaldate'], format='%Y-%m-%d')
+              #                nowdate = pandas.to_datetime(departdate, format='%Y-%m-%d')
+              #                interval1 = nowdate - date1
+              #                i['departdate'] = (date1 + datetime.timedelta(days=+interval1.days)).strftime("%Y-%m-%d")
+              #                i['arrivaldate'] = (date2 + datetime.timedelta(days=+interval1.days)).strftime("%Y-%m-%d")
+        return Response(flight_list.data, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
    
     # 热门地点廉航推荐
@@ -101,18 +97,25 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         blackp = BlackPos.objects.filter(person=user)
         for black in blackp:
             positions = positions.exclude(id=black.position_id)
-        hot = positions.order_by('-heat')[0]
-        arrival = hot.name
-        date = (datetime.datetime.now() + datetime.timedelta(days=+1)).date()
-        flight = Flight.objects.filter(city=departure[:-1], endcity=arrival[:-1], departdate=date)
-        for f in flight:
-            prices = FlightPriceList.objects.filter(owner=f, price__gt=0).order_by('price')
-            if len(prices) > 0:
-                setattr(f, 'minprice', prices[0].price)
-                f.save()
-        flight = flight.exclude(minprice=0)
-        flight = flight.order_by('minprice')
-        serializer_flight = self.serializer_class(flight, many=True)
+        hot = positions.order_by('-heat')
+        flights = Flight.objects.filter(id=0)
+        for i in range(5):
+            arrival = hot[i].name
+            date = (datetime.datetime.now() + datetime.timedelta(days=+1)).date()
+            flight = Flight.objects.filter(city=departure[:-1], endcity=arrival[:-1], departdate=date)
+            if len(flight) == 0:
+                break
+            for f in flight:
+                prices = FlightPriceList.objects.filter(owner=f, price__gt=0).order_by('price')
+                if len(prices) > 0:
+                    setattr(f, 'minprice', prices[0].price)
+                    f.save()
+            flight = flight.exclude(minprice=0)
+            flight = flight.order_by('minprice')
+            id = flight.first().id
+            flight = flight.filter(id=id)
+            flights = flights | flight
+        serializer_flight = self.serializer_class(flights, many=True)
         return Response(serializer_flight.data, status=status.HTTP_200_OK)
 
     # 地点廉航推荐
