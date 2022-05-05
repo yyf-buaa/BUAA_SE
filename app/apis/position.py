@@ -94,14 +94,19 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         user = AppUser.objects.filter(id=owner_id)
         if user:
             user = user.first()
-            blackp = BlackPos.objects.filter(person=user)
+            blackp = BlackPos.objects.filter(person=user, type='黑名单')
+            collectp = BlackPos.objects.filter(person=user, type='收藏')
+            for collect in collectp:
+                heat0 = collect.position.heat * 10000
+                setattr(collect.position, 'heat', heat0)
+                collect.position.save()
             for black in blackp:
                 positions = positions.exclude(id=black.position_id)
-        hot = positions.order_by('-heat')[:30]
+        hot = positions.order_by('-heat')
         hot = self.serializer_class(hot, many=True)
-        return Response(data={'count': positions.count(), 'pages': positions.count()//20 + 1, "next":"", 'previous':"",
-                              'result':hot.data}, status=status.HTTP_200_OK) 
-                
+        return Response(data={'count': positions.count(), 'pages': positions.count()//20 + 1, "next": "", 'previous': "",
+                              'result':hot.data}, status=status.HTTP_200_OK)
+    
     @action(methods=['GET'], detail=False, url_path='recommend')
     def recommend(self, request, *args, **kwargs):
         count = conversion.get_int(request.query_params, 'count')
