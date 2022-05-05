@@ -101,8 +101,8 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         flights = Flight.objects.filter(id=0)
         for i in range(5):
             arrival = hot[i].name
-            date = (datetime.datetime.now() + datetime.timedelta(days=+1)).date()
-            flight = Flight.objects.filter(city=departure[:-1], endcity=arrival[:-1], departdate=date)
+            date = datetime.datetime.now()
+            flight = Flight.objects.filter(city=departure[:-1], endcity=arrival[:-1], departdate=date.date(), departtime__gt=date.time())
             if len(flight) == 0:
                 break
             for f in flight:
@@ -129,8 +129,9 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         except:
             return error_response(Error.NOT_LOGIN, 'Please 完善信息.', status=status.HTTP_400_BAD_REQUEST)
         arrival = request.GET.get('position')
-        date = (datetime.datetime.now() + datetime.timedelta(days=+1)).date()
-        flight = Flight.objects.filter(city=departure[:-1], endcity=arrival, departdate=date)
+        date = datetime.datetime.now()
+        flight = Flight.objects.filter(city=departure[:-1], endcity=arrival,
+                                      departdate=date.date(), departtime__gt=date.time())
         for f in flight:
             prices = FlightPriceList.objects.filter(owner=f, price__gt=0).order_by('price')
             if len(prices) > 0:

@@ -94,10 +94,10 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         user = AppUser.objects.filter(id=owner_id)
         if user:
             user = user.first()
-            blackp = BlackPos.objects.filter(person=user, type='黑名单')
-            collectp = BlackPos.objects.filter(person=user, type='收藏')
+            blackp = BlackPos.objects.filter(person=user, type='黑名单', position__in=positions)
+            collectp = BlackPos.objects.filter(person=user, type='收藏', position__in=positions)
             for collect in collectp:
-                heat0 = collect.position.heat * 10000
+                heat0 = collect.position.heat * 10
                 setattr(collect.position, 'heat', heat0)
                 collect.position.save()
             for black in blackp:
