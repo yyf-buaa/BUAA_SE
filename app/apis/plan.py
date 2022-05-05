@@ -75,7 +75,7 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 #换乘
                 result = Plan_Ser()
                 content1 = transfer[0]
-                content2 = content1 = transfer[1]
+                content2 = transfer[1]
                 result.type = '换乘'
                 result.id1 = content1.split(':')[0]
                 result.type1 = content1.split(':')[1]
