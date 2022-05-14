@@ -381,9 +381,9 @@ export default {
           item.preDescription = item.description;
           item.placeImages = [];
           item.images.forEach((image) => {
-            item.placeImages.push("https://114.116.197.121/api/core/images/" + image + "/data/");
+            item.placeImages.push("http://114.116.197.121:9000/api/core/images/" + image + "/data/");
           })
-          item.placeCover = "https://114.116.197.121/api/core/images/" + item.cover + "/data/";
+          item.placeCover = "http://114.116.197.121:9000/api/core/images/" + item.cover + "/data/";
           if (item.epidemic !== undefined && item.epidemic.length > 0) {
             item.notice = item.epidemic[0].description;
           }else item.notice = "暂无";
