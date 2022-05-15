@@ -16,3 +16,4 @@ from .blackPos import BlackPos
 from .train import Train, TrainPriceList
 from .Transfer import Transfer
 from .plan import Plan,Plan_Ser,Plan_Comp
+from .tag import Tag, TagOnTravel, TagOnCompanion
