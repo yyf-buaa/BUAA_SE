@@ -13,6 +13,8 @@ class Tag(models.Model):
     content = models.CharField(max_length=50, default='')
     # 请求人
     user = models.ForeignKey(AppUser, on_delete=models.SET_NULL, null=True, default=None)
+    # 阅读量
+    read = models.IntegerField(default=0)
     # 审核状态
     forbidden = models.IntegerField(default=settings.TAG_FORBIDDEN_PENDING)
     forbidden_reason = models.TextField(default='')
