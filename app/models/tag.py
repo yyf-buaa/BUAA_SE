@@ -18,6 +18,7 @@ class Tag(models.Model):
     # 审核状态
     forbidden = models.IntegerField(default=settings.TAG_FORBIDDEN_PENDING)
     forbidden_reason = models.TextField(default='')
+    date = models.DateField(auto_now=True)
 
 
 class TagOnTravel(models.Model):

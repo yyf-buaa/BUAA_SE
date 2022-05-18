@@ -15,7 +15,7 @@ ROUTER.register(r'companions', CompanionApis)
 ROUTER.register(r'images', ImageApis)
 ROUTER.register(r'adminmessages', AdminMessageApis)
 ROUTER.register(r'ads', AdvertisementApis)
-
+ROUTER.register(r'tag', TagApis)
 urlpatterns = [
     path('', include(ROUTER.urls)),
 ]

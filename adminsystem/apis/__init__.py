@@ -7,3 +7,4 @@ from .companion import CompanionApis
 from .images import ImageApis
 from .admin_message import AdminMessageApis
 from .advertisement import AdvertisementApis
+from .tag import TagApis

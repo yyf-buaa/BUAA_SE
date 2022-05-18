@@ -19,6 +19,7 @@ ROUTER.register(r'epidemicInfo',EpidemicInfoApis)
 ROUTER.register(r'flights',FlightApis)
 ROUTER.register(r'trains',TrainApis)
 ROUTER.register(r'plans',PlanApis)
+ROUTER.register(r'tags',TagApis)
 urlpatterns = [
     path('', include(ROUTER.urls)),
 ]

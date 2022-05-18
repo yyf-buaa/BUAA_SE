@@ -7,3 +7,4 @@ from .companion import CompanionSerializer
 from .images import ImageSerializer
 from .admin_message import AdminMessageSerializer
 from .advertisement import AdvertisementSerializer
+from .tag import TagOnTravelSerializer,TagOnCompanionSerializer,TagSerializer

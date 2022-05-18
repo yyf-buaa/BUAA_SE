@@ -15,3 +15,5 @@ from .blackPos import BlackPosSerializer
 from .train import TrainSerializer, TrainPriceListSerializer, SingleTrainSerializer, PriceTrainListSerializer
 from .transfer import TransferSerializer
 from .plan import PlanSerializer,PlanSerSerializer,PlanCompSerializer
+
+from .tag import TagSerializer, TagOnTravelSerializer, TagOnCompanionSerializer, TaggedCompanionSerializer, TaggedTravelSerializer
