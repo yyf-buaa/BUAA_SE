@@ -21,11 +21,15 @@ class Tag(models.Model):
     date = models.DateField(auto_now=True)
 
 
+
 class TagOnTravel(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='taggedTravel')
     travel = models.ForeignKey(Travel, on_delete=models.CASCADE, related_name='travelTags')
-
+    #type表示是否在文中，1表示为文中tag，0表示为文末tag
+    type = models.IntegerField(default=0)
 
 class TagOnCompanion(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='taggedCompanion')
     companion = models.ForeignKey(Companion, on_delete=models.CASCADE, related_name='CompanionTags')
+    #type表示是否在文中，1表示为文中tag，0表示为文末tag
+    type = models.IntegerField(default=0)

@@ -5,6 +5,7 @@ from django.conf import settings
 class Plan(models.Model):
     owner = models.ForeignKey(AppUser,on_delete = models.CASCADE)
     content = models.TextField(null=True, default=None, max_length=settings.MAX_MESSAGE_CONTENT_LENGTH)
+    date = models.DateField(auto_now=True)
 #转成json传给前端的序列类型
 class Plan_Ser(models.Model):
     type = models.TextField(null=True, default=None, max_length=settings.MAX_MESSAGE_CONTENT_LENGTH)

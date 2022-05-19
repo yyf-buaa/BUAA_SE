@@ -16,4 +16,4 @@ from .train import TrainSerializer, TrainPriceListSerializer, SingleTrainSeriali
 from .transfer import TransferSerializer
 from .plan import PlanSerializer,PlanSerSerializer,PlanCompSerializer
 
-from .tag import TagSerializer, TagOnTravelSerializer, TagOnCompanionSerializer, TaggedCompanionSerializer, TaggedTravelSerializer
+from .tag import TagSerializer, TagOnTravelSerializer, TagOnCompanionSerializer, TagAndTravelSerializer, TagAndCompanionSerializer, TaggedCompanionSerializer, TaggedTravelSerializer

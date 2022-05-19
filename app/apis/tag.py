@@ -4,8 +4,8 @@ from rest_framework.exceptions import ParseError, NotAcceptable, PermissionDenie
 from rest_framework.decorators import action
 from django.conf import settings
 
-from app.models import Tag, TagOnTravel, TagOnCompanion
-from app.serializers import TagSerializer, TagOnTravelSerializer, TagOnCompanionSerializer
+from app.models import Tag, TagOnTravel, TagOnCompanion,Companion,Travel
+from app.serializers import TagSerializer, TagOnTravelSerializer, TagOnCompanionSerializer, TagAndTravelSerializer, TagAndCompanionSerializer
 import datetime
 
 from django.db.models import QuerySet
@@ -47,7 +47,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 return Response('无数据', status=status.HTTP_204_NO_CONTENT)
             page = self.paginate_queryset(travels)
             if page is not None:
-                serializer = TagOnTravelSerializer(page, many=True)
+                serializer = TagAndTravelSerializer(page, many=True)
                 datas = serializer.data
                 for data, obj in zip(datas, page):
                     if request_user > 0:
@@ -60,7 +60,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 #    else:
                 #        data['travel']['liked'] = 0
                 return self.get_paginated_response(datas)
-            serializer = TagOnTravelSerializer(travels, many=True)
+            serializer = TagAndTravelSerializer(travels, many=True)
             datas = serializer.data
             for data, obj in zip(datas, travels):
                 if request_user > 0:
@@ -87,11 +87,35 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             tag.save()
             companions = TagOnCompanion.objects.filter(tag=tag, companion__forbidden=settings.TRAVEL_FORBIDDEN_FALSE)
             if not companions:
-                return Response('无数据', status=status.HTTP_204_NO_CONTENT)            
+                return Response('无数据', status=status.HTTP_204_NO_CONTENT)
             page = self.paginate_queryset(companions)
             if page is not None:
-                serializer = TagOnCompanionSerializer(page, many=True)
+                serializer = TagAndCompanionSerializer(page, many=True)
                 return self.get_paginated_response(serializer.data)
-            serializer = TagOnCompanionSerializer(companions, many=True)
+            serializer = TagAndCompanionSerializer(companions, many=True)
             return Response(serializer.data)
         return Response('tag未创建', status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['GET'], detail=False, url_path='getTravelTags')
+    def getTravelTags(self, request, *args, **kwargs):
+        travel_id = request.GET.get('travel_id')
+        travel = Travel.objects.filter(id = travel_id).first()
+        tag_set = TagOnTravel.objects.filter(travel=travel)
+        tag_val_set = []
+        for tagOnTravel in tag_set:
+            if tagOnTravel.tag.forbidden == 0:
+                tag_val_set.append(tagOnTravel)
+        tag_ser = TagOnTravelSerializer(tag_val_set,many=True)
+        return Response(tag_ser.data,status=status.HTTP_200_OK)
+
+    @action(methods=['GET'], detail=False, url_path='getCompanionTags')
+    def getCompanionTags(self, request, *args, **kwargs):
+        companion_id = request.GET.get('companion_id')
+        companion = Companion.objects.filter(id=companion_id).first()
+        tag_set = TagOnCompanion.objects.filter(companion=companion)
+        tag_val_set = []
+        for tagOnTravel in tag_set:
+            if tagOnTravel.tag.forbidden == 0:
+                tag_val_set.append(tagOnTravel)
+        tag_ser = TagOnCompanionSerializer(tag_set, many=True)
+        return Response(tag_ser.data, status=status.HTTP_200_OK)
