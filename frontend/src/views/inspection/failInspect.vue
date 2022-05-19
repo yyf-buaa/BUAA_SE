@@ -50,6 +50,11 @@
             <a-descriptions-item label="用户昵称">
               {{data[pane.key-1].ownerNickname}}
             </a-descriptions-item>
+            <a-descriptions-item label="标签" :span="3">
+              <a-tooltip v-for="tag in data[pane.key-1].tags" :key=tag.tag.id :title=tag.msg>
+                <a-tag :color=tag.color>{{tag.tag.content}}</a-tag>
+              </a-tooltip>
+            </a-descriptions-item>
             <a-descriptions-item label="游记内容" :span="3">
               {{data[pane.key-1].content}}
             </a-descriptions-item>
@@ -183,6 +188,38 @@ export default {
           item.images.forEach((image) => {
             item.recordImages.push("https://tra-fr-2.zhouyc.cc/api/core/images/" + image + "/data/");
           })
+
+          //get tags
+            this.$axios({
+              method: "get",
+              url: "api/admin/tag/getTravelTags/",
+              params: {
+                "travel_id": item.id,
+              },
+              headers: {
+                Authorization: localStorage.getItem('Authorization')
+              },
+              data: {},
+            }).then((res) => {
+              // console.log(res)
+              item.tags = res.data;
+              item.tags.forEach((tag) => {
+              if (tag.tag.forbidden == 0) {
+                tag.color = 'blue';
+                tag.msg = '该标签已通过审核';
+              }
+              else if (tag.tag.forbidden == 1) {
+                tag.color = 'red';
+                tag.msg = '该标签未通过审核';
+              }
+              else if (tag.tag.forbidden == 2) {
+                tag.color = 'orange';
+                tag.msg = '该标签未通过审核';
+              }
+            })
+            }).catch((error) => {
+              console.log(error);
+            })
         })
         this.panes[0].data = this.data;
         this.spinning = false;

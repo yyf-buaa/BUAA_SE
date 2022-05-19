@@ -6,7 +6,7 @@
           <!-- <a-input-search placeholder="input search text" style="width: 300px;margin:0px 10px 15px 0px"  @search="onSearch" />
           <a-button style="margin:0 5px" type="primary" @click="add">查看</a-button> -->
           <a-button style="margin:0px 10px 15px 0px" type="primary" @click="add">查看</a-button>
-          <a-button style="margin:0 5px" @click="deleteTogethers">删除</a-button>
+          <a-button style="margin:0 5px" @click="deleteTags">删除</a-button>
           <a-spin :spinning="spinning">
             <a-table :row-selection="rowSelection" :columns="columns" :data-source="pane.data"  :pagination="false">
               <a slot="id" slot-scope="text, record" @click="addSingle(record)">{{ text}}</a>
@@ -16,56 +16,26 @@
           </a-spin>
         </div>
         <div v-else style="margin:10px 0 10px 15px;">
-          <a-descriptions title="同行活动信息" bordered style="word-break: break-all;word-wrap: break-word;">
+          <a-descriptions title="标签信息" bordered style="word-break: break-all;word-wrap: break-word;">
             <a-descriptions-item label="编号">
               {{data[pane.key-1].id}}
             </a-descriptions-item>
-            <a-descriptions-item label="地点">
-              {{data[pane.key-1].position.name}}
-            </a-descriptions-item>
-            <a-descriptions-item label="人数">
-              {{data[pane.key-1].capacity}}
-            </a-descriptions-item>
-            <a-descriptions-item label="发布者编号">
-              {{data[pane.key-1].ownerId}}
-            </a-descriptions-item>
-            <a-descriptions-item label="发布者名称">
-              {{data[pane.key-1].ownerName}}
-            </a-descriptions-item>
-            <a-descriptions-item label="发布者昵称">
-              {{data[pane.key-1].ownerNickname}}
-            </a-descriptions-item>
-            <a-descriptions-item label="活动发布时间" :span="1.5">
-              {{data[pane.key-1].createTime}}
-            </a-descriptions-item>
-            <a-descriptions-item label="报名截止时间" :span="1.5">
-              {{data[pane.key-1].deadlineTime}}
-            </a-descriptions-item>
-            <a-descriptions-item label="活动开始时间" :span="1.5">
-              {{data[pane.key-1].startTime}}
-            </a-descriptions-item>
-            <a-descriptions-item label="活动结束时间" :span="1.5">
-              {{data[pane.key-1].endTime}}
-            </a-descriptions-item>
-            <a-descriptions-item label="活动标题" :span="3">
+            <a-descriptions-item label="名称">
               {{data[pane.key-1].title}}
             </a-descriptions-item>
-            <a-descriptions-item label="标签" :span="3">
-              <a-tooltip v-for="tag in data[pane.key-1].tags" :key=tag.tag.id :title=tag.msg>
-                <a-tag :color=tag.color>{{tag.tag.content}}</a-tag>
-              </a-tooltip>
+            <a-descriptions-item label="创建时间">
+              {{data[pane.key-1].createTime}}
             </a-descriptions-item>
-            <a-descriptions-item label="活动内容" :span="3">
-              {{data[pane.key-1].content}}
+            <a-descriptions-item label="创建者编号">
+              {{data[pane.key-1].creatorId}}
             </a-descriptions-item>
-            <a-descriptions-item label="活动参与者" :span="3">
-              <a-table v-if="data[pane.key-1].fellows.length > 0" class="fellowtlb" style="width: 600px" :pagination="false" :columns="fellowColumns" :data-source="data[pane.key-1].fellows" rowKey="id">
-              </a-table>
+            <a-descriptions-item label="创建者名称">
+              {{data[pane.key-1].creatorName}}
             </a-descriptions-item>
 
           </a-descriptions>
         </div>
-    
+
       </a-tab-pane>
     </a-tabs>
     <a-modal
@@ -82,24 +52,24 @@
 <script>
 const columns = [
   {
-    title: '同行编号',
+    title: '标签编号',
     dataIndex: 'id',
     scopedSlots: { customRender: 'id' },
   },
   {
-    title: '同行标题',
+    title: '标签名称',
     dataIndex: 'title',
   },
   {
-    title: '用户编号',
-    dataIndex: 'ownerId',
+    title: '创建者编号',
+    dataIndex: 'creatorId',
   },
   {
-    title: '用户名称',
-    dataIndex: 'ownerName',
+    title: '创建者名称',
+    dataIndex: 'creatorName',
   },
   {
-    title: '发布时间',
+    title: '创建时间',
     dataIndex: 'createTime',
   },
   {
@@ -107,33 +77,17 @@ const columns = [
     dataIndex: 'status',
   },
 ];
-const fellowColumns = [
-  {
-    title: '用户编号',
-    dataIndex: 'id',
-    scopedSlots: { customRender: 'id' },
-  },
-  {
-    title: '用户名称',
-    dataIndex: 'name'
-  },
-  {
-    title: '用户昵称',
-    dataIndex: 'nickname'
-  }
-]
 
 export default {
-  name:"together",
+  name:"tag",
   data() {
     const panes = [
-      { title: '同行管理', data:[],  key: '0' ,closable: false },
+      { title: '标签管理', data:[],  key: '0' ,closable: false },
     ];
     return {
       spinning:true,
       data:[],
       columns,
-      fellowColumns,
       activeKey: panes[0].key,
       panes,
       selectedRows:[],
@@ -163,95 +117,58 @@ export default {
     },
   },
   mounted(){
-    this.getTogethers({"page":"1"});
+    this.getTags({"page":"1"});
   },
   methods: {
-    getTogethers(p) {
+    getTags(p) {
       this.spinning = true;
       this.$axios({
         method: "get",
-        url: "api/admin/companions/",
+        url: "api/admin/tag/getTagList/",
         params: p,
         headers: {
           Authorization: localStorage.getItem('Authorization')
         },
         data: {},
       }).then((res) => {
+        console.log(res)
         this.data = res.data.results;
         this.pageNum = res.data.pages;
         let key = 1;
         this.data.forEach((item)=>{
           item.key = key + '';
-          key = key + 1;  
-          item.ownerId = item.owner == null ? null : item.owner.id;
-          item.ownerName = item.owner == null ? null : item.owner.name;
-          item.ownerNickname = item.owner == null ? null : item.owner.nickname;
-          item.positionName = item.position == null ? null : item.position.name;
-          let time_array = item.time.split("T");
-          item.createTime = time_array[0] + " " + time_array[1].split("+")[0].split(".")[0];
-          time_array = item.deadline.split("T");
-          item.deadlineTime = time_array[0] + " " + time_array[1].split("+")[0].split(".")[0];
-          time_array = item.start_time.split("T");
-          item.startTime = time_array[0] + " " + time_array[1].split("+")[0].split(".")[0];
-          time_array = item.end_time.split("T");
-          item.endTime = time_array[0] + " " + time_array[1].split("+")[0].split(".")[0];
+          key = key + 1;
+          item.title = item.content;
+          item.creatorId = item.user == null ? "-" : item.user.id;
+          item.creatorName = item.user == null ? "管理员" : item.user.name;
+          item.createTime = item.date;
           item.status = "审核通过";
-          if (item.forbidden == "1") {
-            item.status = "人工审核不通过"
-          } else if (item.forbidden == "2") {
-            item.status = "机器审核不通过"
+          if (item.forbidden == 1) {
+            item.status = "审核不通过"
+          } else if (item.forbidden == 2) {
+            item.status = "待审核"
           }
-
-          //get tags
-            this.$axios({
-              method: "get",
-              url: "api/admin/tag/getCompanionTags/",
-              params: {
-                "companion_id": item.id,
-              },
-              headers: {
-                Authorization: localStorage.getItem('Authorization')
-              },
-              data: {},
-            }).then((res) => {
-              // console.log(res)
-              item.tags = res.data;
-              item.tags.forEach((tag) => {
-              if (tag.tag.forbidden == 0) {
-                tag.color = 'blue';
-                tag.msg = '该标签已通过审核';
-              }
-              else if (tag.tag.forbidden == 1) {
-                tag.color = 'red';
-                tag.msg = '该标签未通过审核';
-              }
-              else if (tag.tag.forbidden == 2) {
-                tag.color = 'orange';
-                tag.msg = '该标签未通过审核';
-              }
-            })
-            }).catch((error) => {
-              console.log(error);
-            })
-
         })
         this.panes[0].data = this.data;
         this.spinning = false;
       }).catch((error) => {
+        console.log(error)
         if (error.response.status == 403) {
           this.visible = true;
         }
       });
     },
-    deleteTogether(togetherId) {
+    deleteTag(tagId) {
       this.$axios({
-        method: "delete",
-        url: "api/admin/companions/" + togetherId + "/",
+        method: "post",
+        url: "api/admin/tag/deleteTag/",
         params: {},
         headers: {
           Authorization: localStorage.getItem('Authorization')
         },
-        data: {},
+        data: {
+          id: tagId
+        },
       }).then((res) => {
         console.log(res);
       }).catch((error) => {
@@ -279,14 +196,14 @@ export default {
       this.panes.splice(1, this.panes.length-1);
       this.selectedRows = [];
       this.selectedRowKeys = [];
-      this.getTogethers({"page": page});
+      this.getTags({"page": page});
     },
-    deleteTogethers() {
+    deleteTags() {
       this.selectedRows.forEach((item)=>{
-        this.deleteTogether(item.id);
+        this.deleteTag(item.id);
         this.remove(item.key);
       });
-      this.getTogethers({"page":"1"});
+      this.getTags({"page":"1"});
       this.selectedRows = [];
       this.selectedRowKeys = [];
     },
@@ -314,7 +231,7 @@ export default {
         }
         if(flag == 0){
           panes.push({ title: item.id, data:item.data, key: item.key });
-         
+
         }
          this.activeKey = item.key;
          this.panes = panes;

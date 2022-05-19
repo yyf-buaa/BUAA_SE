@@ -25,7 +25,7 @@ def readJson(filename, conn):
 
     flightList = result['list']
 
-    date0 = pandas.to_datetime('2022-05-13', format='%Y-%m-%d')
+    date0 = pandas.to_datetime('2022-05-20', format='%Y-%m-%d')
     for i in range(7):
 
         for flight in flightList:

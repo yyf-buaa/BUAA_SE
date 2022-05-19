@@ -61,6 +61,21 @@ const routes = [
         component: () => import("../views/togetherInspection/togetherFailInspect.vue"),
       },
       {
+        path: "/tagUnderInspect",
+        name: "tagUnderInspect",
+        component: () => import("../views/tagInspection/tagUnderInspect"),
+      },
+      {
+        path: "/tagPassInspect",
+        name: "tagPassInspect",
+        component: () => import("../views/tagInspection/tagPassInspect"),
+      },
+      {
+        path: "/tagFailInspect",
+        name: "tagFailInspect",
+        component: () => import("../views/tagInspection/tagFailInspect"),
+      },
+      {
         path: "/newMsg",
         name: "newMsg",
         component: () => import("../views/message/newMsg.vue"),
@@ -89,6 +104,11 @@ const routes = [
         path: "/together",
         name: "together",
         component: () => import("../views/manage/together.vue"),
+      },
+      {
+        path: "/tag",
+        name: "tag",
+        component: () => import("../views/manage/tag.vue"),
       },
       {
         path: "/feedback",

@@ -55,6 +55,21 @@
               <router-link to="/togetherFailInspect"></router-link>
             </a-menu-item>
           </a-sub-menu>
+          <a-sub-menu key="sub5">
+            <span slot="title"><a-icon type="laptop" />标签审核</span>
+            <a-menu-item key="20">
+              待审核
+              <router-link to="/tagUnderInspect"></router-link>
+            </a-menu-item>
+            <a-menu-item key="21">
+              审核通过
+              <router-link to="/tagPassInspect"></router-link>
+            </a-menu-item>
+            <a-menu-item key="22">
+              审核不通过
+              <router-link to="/tagFailInspect"></router-link>
+            </a-menu-item>
+          </a-sub-menu>
           <a-sub-menu key="sub3">
             <span slot="title"><a-icon type="notification" />信息推送</span>
             <a-menu-item key="9">
@@ -81,6 +96,10 @@
           <a-menu-item key="14">
             <a-icon type="team" />同行管理
             <router-link to="/together"></router-link>
+          </a-menu-item>
+          <a-menu-item key="23">
+            <a-icon type="tags" />标签管理
+            <router-link to="/tag"></router-link>
           </a-menu-item>
           <a-menu-item key="19">
             <a-icon type="info-circle" />问题反馈
