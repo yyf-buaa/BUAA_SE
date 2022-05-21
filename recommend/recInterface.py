@@ -10,7 +10,7 @@ import pickle as pkl
 
 def saveTravelAndUserFeature(model, batch_size):
     datasets = TravelDataset(pkl_file='dataTravel.p', drop_dup=True)
-    dataloader = DataLoader(datasets, batch_size=batch_size, shuffle=False, num_workers=4)
+    dataloader = DataLoader(datasets, batch_size=batch_size, shuffle=False, num_workers=2)
 
     user_feature_dict = {}
     item_feature_dict = {}

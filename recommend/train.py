@@ -4,11 +4,13 @@ from torch.utils.data import DataLoader, random_split
 import torch
 import torch.optim as optim
 import torch.nn as nn
-import matplotlib.pyplot as plt
 import constants
+from getData import getData
 from recInterface import saveTravelAndUserFeature
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+getData()
 
 # --------------- hyper-parameters------------------
 paramFile = open(constants.dataSumPath, 'r')
