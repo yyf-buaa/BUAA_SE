@@ -83,7 +83,7 @@ if __name__ == '__main__':
 
     # train model
     train(model=model, num_epochs=constants.epochs, lr=constants.lr, batch_size=constants.batch_size)
-    torch.save(model.state_dict(), 'Params/model_params.pkl')
+    torch.save(model.state_dict(), constants.modelParams)
     saveTravelAndUserFeature(model=model, batch_size=constants.batch_size)
 
     # test recsys

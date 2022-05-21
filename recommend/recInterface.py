@@ -2,6 +2,8 @@
 
 import torch
 from torch.utils.data import DataLoader
+
+import constants
 from dataset import TravelDataset
 
 import numpy as np
@@ -9,8 +11,8 @@ import pickle as pkl
 
 
 def saveTravelAndUserFeature(model, batch_size):
-    datasets = TravelDataset(pkl_file='dataTravel.p', drop_dup=True)
-    dataloader = DataLoader(datasets, batch_size=batch_size, shuffle=False, num_workers=2)
+    datasets = TravelDataset(pkl_file=constants.dataPath, drop_dup=True)
+    dataloader = DataLoader(datasets, batch_size=batch_size, shuffle=False, num_workers=4)
 
     user_feature_dict = {}
     item_feature_dict = {}
@@ -50,8 +52,8 @@ def saveTravelAndUserFeature(model, batch_size):
     dict_user_travel = {'user': users, 'item': items}
     print(len(dict_user_travel['user']))
     print(len(feature_data['feature_item']))
-    pkl.dump(feature_data, open('Params/feature_data.pkl', 'wb'))
-    pkl.dump(dict_user_travel, open('Params/user_travel_dict.pkl', 'wb'))
+    pkl.dump(feature_data, open(constants.featureData, 'wb'))
+    pkl.dump(dict_user_travel, open(constants.featureDict, 'wb'))
 
 
 '''
@@ -70,7 +72,7 @@ def getKNNitem(itemID, itemName, K=1):
         return cosine_sim
 
     # 加载用户特征or游记特征
-    feature_data = pkl.load(open('Params/feature_data.pkl', 'rb'))
+    feature_data = pkl.load(open(constants.featureData, 'rb'))
     feature_items = feature_data['feature_' + itemName]
     feature_current = feature_items[itemID]
 
@@ -82,8 +84,8 @@ def getKNNitem(itemID, itemName, K=1):
 
 # 获取用户对游记喜爱顺序
 def getUserLike(uid):
-    feature_data = pkl.load(open('Params/feature_data.pkl', 'rb'))
-    user_item_ids = pkl.load(open('Params/user_travel_dict.pkl', 'rb'))
+    feature_data = pkl.load(open(constants.featureData, 'rb'))
+    user_item_ids = pkl.load(open(constants.featureDict, 'rb'))
 
     feature_user = feature_data['feature_user'][uid]
 
