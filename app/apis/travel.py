@@ -17,6 +17,8 @@ from app.utilities import permission
 from app.response import *
 from utilities import conversion, permission as _permission, filters
 from django.core.files.uploadedfile import UploadedFile
+from recommend.recInterface import getUserLike, getKNNitem
+
 
 class TravelFilterBackend(filters.QueryFilterBackend):
     filter_fields = [
@@ -56,14 +58,15 @@ class TravelFilterBackend(filters.QueryFilterBackend):
 
     @classmethod
     def heat_annotate(cls, queryset):
-        return queryset\
-                .annotate(heat=\
-                    settings.TRAVEL_HEAT_WEIGHT_RECENT * Sum('read_records__amount') + \
-                    settings.TRAVEL_HEAT_WEIGHT_COLLECTIONS * Count('collectors') + \
-                    settings.TRAVEL_HEAT_WEIGHT_LIKES * Count('likes') + \
-                    settings.TRAVEL_HEAT_WEIGHT_COMMENTS * Count('comments')
-                )\
-                .order_by('-heat')
+        return queryset \
+            .annotate(heat= \
+                          settings.TRAVEL_HEAT_WEIGHT_RECENT * Sum('read_records__amount') + \
+                          settings.TRAVEL_HEAT_WEIGHT_COLLECTIONS * Count('collectors') + \
+                          settings.TRAVEL_HEAT_WEIGHT_LIKES * Count('likes') + \
+                          settings.TRAVEL_HEAT_WEIGHT_COMMENTS * Count('comments')
+                      ) \
+            .order_by('-heat')
+
 
 class TravelApis(viewsets.ModelViewSet):
     permission_classes = [permission.ContentPermission]
@@ -139,7 +142,8 @@ class TravelApis(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         try:
             serializer.save()
-        except Exception as e: print (e)
+        except Exception as e:
+            print(e)
 
         if getattr(instance, '_prefetched_objects_cache', None):
             # If 'prefetch_related' has been applied to a queryset, we need to
@@ -167,6 +171,38 @@ class TravelApis(viewsets.ModelViewSet):
             if not Message.objects.filter(related_travel=obj, owner=owner, type=settings.MESSAGE_TYPE_LIKE_TRAVEL):
                 Message.create_message(owner, obj.owner, settings.MESSAGE_TYPE_LIKE_TRAVEL, travel=obj)
         return response()
+
+    @action(methods=['GET'], detail=False, url_path='newRecommend')
+    def newRecommend(self, request, *args, **kwargs):
+        owner_id = _permission.user_check(request)
+        user = AppUser.objects.filter(id=owner_id)
+        if user:
+            try:
+                travel_list = getUserLike(owner_id)
+                travels = Travel.objects.filter(id__in=travel_list)
+                travels = dict([(obj.id, obj) for obj in travels]) 
+                sotedTravels = []
+                for id in travel_list:
+                    if id not in travels.keys():
+                        continue
+                    sotedTravels.append(travels[id])
+                
+                serializer = self.get_serializer(sotedTravels, many=True)
+                data = serializer.data
+                for d, obj in zip(data, sotedTravels):
+                    if user:
+                        d['liked'] = True if obj.likes.filter(id=owner_id) else False
+                    else:
+                        d['liked'] = False
+                return Response({'count': len(data), 'data': data}, status=status.HTTP_200_OK)
+            except:
+                travels = Travel.objects.all()
+                data = self.get_list_data(request, travels)
+                return Response({'count': len(data), 'data': data}, status=status.HTTP_200_OK)
+
+        travels = Travel.objects.all()
+        data = self.get_list_data(request, travels)
+        return Response({'count': len(data), 'data': data}, status=status.HTTP_200_OK)
 
     @action(methods=['POST', 'DELETE'], detail=True, url_path='image')
     def image(self, request, *args, **kwargs):
@@ -231,12 +267,12 @@ class TravelApis(viewsets.ModelViewSet):
             queryset = Comment.objects.filter(
                 master=self.get_object(),
                 reply=None,
-                #deleted=False,
+                # deleted=False,
             )
         else:
             queryset = Comment.objects.filter(
                 master=self.get_object(),
-                #deleted=False,
+                # deleted=False,
             )
 
         page = self.paginate_queryset(queryset)
@@ -275,7 +311,8 @@ class TravelApis(viewsets.ModelViewSet):
 
         if comment.reply:
             if owner_id != comment.reply.owner_id:
-                Message.create_message(comment.owner, comment.reply.owner, settings.MESSAGE_TYPE_COMMENT_ON_COMMENT, comment=comment.reply)
+                Message.create_message(comment.owner, comment.reply.owner, settings.MESSAGE_TYPE_COMMENT_ON_COMMENT,
+                                       comment=comment.reply)
         else:
             if owner_id != obj.owner_id:
                 Message.create_message(comment.owner, obj.owner, settings.MESSAGE_TYPE_COMMENT_ON_TRAVEL, travel=obj)
@@ -301,7 +338,7 @@ class TravelApis(viewsets.ModelViewSet):
             amount = min(amount, settings.TRAVEL_RECOMMEND_MAX_AMOUNT)
 
         self_queryset = self.get_queryset().filter(Q(forbidden=settings.TRAVEL_FORBIDDEN_FALSE,
-                                visibility=settings.TRAVEL_VISIBILITIES_ALL))
+                                                     visibility=settings.TRAVEL_VISIBILITIES_ALL))
 
         if user is not None:
             filter_args = {}
@@ -311,7 +348,8 @@ class TravelApis(viewsets.ModelViewSet):
                 filter_args['time__gte'] = first_likes[first_likes.count() - 1].time
             liked_users = first_likes.values_list('owner_id', flat=True)
 
-            cluster_amount = round(settings.TRAVEL_RECOMMEND_CLUSTER_WEIGHT * amount * settings.TRAVEL_RECOMMEND_EXCEED_RATE)
+            cluster_amount = round(
+                settings.TRAVEL_RECOMMEND_CLUSTER_WEIGHT * amount * settings.TRAVEL_RECOMMEND_EXCEED_RATE)
             user_amount = round(settings.TRAVEL_RECOMMEND_USER_WEIGHT * amount * settings.TRAVEL_RECOMMEND_EXCEED_RATE)
             heat_amount = round(settings.TRAVEL_RECOMMEND_HEAT_WEIGHT * amount * settings.TRAVEL_RECOMMEND_EXCEED_RATE)
 
@@ -372,7 +410,7 @@ class TravelApis(viewsets.ModelViewSet):
 
     @action(methods=['GET'], detail=True, url_path='similar')
     def similar(self, request, *args, **kwargs):
-        obj : Travel = self.get_object()
+        obj: Travel = self.get_object()
         count = conversion.get_int(request.query_params, 'count')
         if count is None:
             count = settings.TRAVEL_SIMILAR_AMOUNT
@@ -380,7 +418,7 @@ class TravelApis(viewsets.ModelViewSet):
             count = min(count, settings.TRAVEL_SIMILAR_MAX_AMOUNT)
 
         self_queryset = self.get_queryset().filter(Q(forbidden=settings.TRAVEL_FORBIDDEN_FALSE,
-                                visibility=settings.TRAVEL_VISIBILITIES_ALL))
+                                                     visibility=settings.TRAVEL_VISIBILITIES_ALL))
 
         queryset = self_queryset.exclude(id=obj.id)
         if obj.position is None:
@@ -414,7 +452,7 @@ class TravelApis(viewsets.ModelViewSet):
 
             c = count - len(same_district)
             if c > 0:
-                ids = list(map(lambda x: x.id, same_district))#same_district.values_list('id', flat=True)
+                ids = list(map(lambda x: x.id, same_district))  # same_district.values_list('id', flat=True)
                 queryset = queryset.exclude(id__in=ids)
                 same_district += list(filters.random_filter(queryset, c))
 

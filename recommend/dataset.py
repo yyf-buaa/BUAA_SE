@@ -2,7 +2,7 @@ from torch.utils.data import Dataset
 import pickle as pkl
 import torch
 import pandas as pd
-import constants
+from recommend import constants
 
 
 class TravelDataset(Dataset):

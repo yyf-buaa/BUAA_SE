@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader, random_split
 import torch
 import torch.optim as optim
 import torch.nn as nn
-import constants
+from recommend import constants
 from getData import getData
 from recInterface import saveTravelAndUserFeature
 

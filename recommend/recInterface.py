@@ -3,8 +3,8 @@
 import torch
 from torch.utils.data import DataLoader
 
-import constants
-from dataset import TravelDataset
+from recommend import constants
+from recommend.dataset import TravelDataset
 
 import numpy as np
 import pickle as pkl
