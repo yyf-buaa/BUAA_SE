@@ -24,6 +24,15 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
+    @action(methods=['GET'], detail=False, url_path='getTagRead')
+    def getTags(self, request, *args, **kwargs):
+        content = request.GET.get('content')
+        tag = Tag.objects.filter(content=content)
+        if tag:
+            tag = tag.first()
+            return Response({'read': tag.read}, status=status.HTTP_200_OK)
+        return Response('tag未创建', status=status.HTTP_400_BAD_REQUEST)
+    
     @action(methods=['GET'], detail=False, url_path='searchTaggedTravels')
     def getTaggedTravel(self, request, *args, **kwargs):
         content = request.GET.get('content')
@@ -119,3 +128,10 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 tag_val_set.append(tagOnTravel)
         tag_ser = TagOnCompanionSerializer(tag_set, many=True)
         return Response(tag_ser.data, status=status.HTTP_200_OK)
+        
+    @action(methods=['GET'], detail=False, url_path='getTagList')
+    def getTagList(self, request, *args, **kwargs):
+        forbidden = 0
+        tags = Tag.objects.filter(forbidden=forbidden)
+        tags_ser = TagSerializer(tags,many = True)
+        return Response(tags_ser.data, status=status.HTTP_200_OK)
