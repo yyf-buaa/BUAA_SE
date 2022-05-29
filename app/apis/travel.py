@@ -176,6 +176,7 @@ class TravelApis(viewsets.ModelViewSet):
     def newRecommend(self, request, *args, **kwargs):
         owner_id = _permission.user_check(request)
         user = AppUser.objects.filter(id=owner_id)
+        step = 5
         if user:
             try:
                 travel_list = getUserLike(owner_id)
@@ -194,15 +195,30 @@ class TravelApis(viewsets.ModelViewSet):
                         d['liked'] = True if obj.likes.filter(id=owner_id) else False
                     else:
                         d['liked'] = False
-                return Response({'count': len(data), 'data': data}, status=status.HTTP_200_OK)
+                li = [data[i:i + step] for i in range(0, len(data), step)]
+                final = []
+                for list in li:
+                    random.shuffle(list)
+                    final.extend(list)
+                return Response({'count': len(final), 'data': final}, status=status.HTTP_200_OK)
             except:
                 travels = Travel.objects.all()
                 data = self.get_list_data(request, travels)
-                return Response({'count': len(data), 'data': data}, status=status.HTTP_200_OK)
+                li = [data[i:i + step] for i in range(0, len(data), step)]
+                final = []
+                for list in li:
+                    random.shuffle(list)
+                    final.extend(list)
+                return Response({'count': len(final), 'data': final}, status=status.HTTP_200_OK)
 
         travels = Travel.objects.all()
         data = self.get_list_data(request, travels)
-        return Response({'count': len(data), 'data': data}, status=status.HTTP_200_OK)
+        li = [data[i:i + step] for i in range(0, len(data), step)]
+        final = []
+        for list in li:
+            random.shuffle(list)
+            final.extend(list)
+        return Response({'count': len(final), 'data': final}, status=status.HTTP_200_OK)
 
     @action(methods=['POST', 'DELETE'], detail=True, url_path='image')
     def image(self, request, *args, **kwargs):

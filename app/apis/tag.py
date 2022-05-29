@@ -92,7 +92,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             tag = tag.first()
             if not tag.forbidden == 0:
                 return Response('tag不可见（待审核或未通过）', status=status.HTTP_400_BAD_REQUEST)
-            setattr(tag, 'read', tag.read + 1)
+            # setattr(tag, 'read', tag.read + 1) #has +1 in getTaggedTravels
             tag.save()
             companions = TagOnCompanion.objects.filter(tag=tag, companion__forbidden=settings.TRAVEL_FORBIDDEN_FALSE)
             if not companions:
@@ -135,3 +135,112 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         tags = Tag.objects.filter(forbidden=forbidden)
         tags_ser = TagSerializer(tags,many = True)
         return Response(tags_ser.data, status=status.HTTP_200_OK)
+
+    @action(methods=['POST'], detail=False, url_path='saveTravelInTextTags')
+    def saveTravelInTextTags(self, request, *args, **kwargs):
+        travel_id = request.data.get('travel_id')
+        travel = Travel.objects.filter(id=travel_id).first()
+        names = request.data.get('names')
+        for name in names:
+            tag = None
+            tagOnTravel = TagOnTravel()
+            #查找tag表里面是否有tag
+            tags = Tag.objects.filter(content = name)
+            if len(tags) == 0:
+                #新创建tag加入tag表
+                tag = Tag()
+                tag.content = name
+                tag.read = 0
+                tag.forbidden = 2
+                tag.save()
+            else:
+                tag = tags.first()
+            tagOnTravel_list = TagOnTravel.objects.filter(tag=tag,travel=travel,type=1)
+            if len(tagOnTravel_list) == 0:
+                tagOnTravel.tag = tag
+                tagOnTravel.travel = travel
+                tagOnTravel.type = 1
+                tagOnTravel.save()
+        return Response(True)
+
+    @action(methods=['POST'], detail=False, url_path='saveTravelEndTextTags')
+    def saveTravelEndTextTags(self, request, *args, **kwargs):
+        travel_id = request.data.get('travel_id')
+        travel = Travel.objects.filter(id=travel_id).first()
+        names = request.data.get('names')
+        for name in names:
+            tag = None
+            tagOnTravel = TagOnTravel()
+            #查找tag表里面是否有tag
+            tags = Tag.objects.filter(content = name)
+            if len(tags) == 0:
+                #新创建tag加入tag表
+                tag = Tag()
+                tag.content = name
+                tag.read = 0
+                tag.forbidden = 2
+                tag.save()
+            else:
+                tag = tags.first()
+            tagOnTravel_list = TagOnTravel.objects.filter(tag=tag,travel=travel,type=0)
+            if len(tagOnTravel_list) == 0:
+                tagOnTravel.tag = tag
+                tagOnTravel.travel = travel
+                tagOnTravel.type = 0
+                tagOnTravel.save()
+        return Response(True)
+
+    @action(methods=['POST'], detail=False, url_path='saveComInTextTags')
+    def saveComInTextTags(self, request, *args, **kwargs):
+        companion_id = request.data.get('companion_id')
+        companion = Companion.objects.filter(id=companion_id).first()
+        names = request.data.get('names')
+        for name in names:
+            tag = None
+            tagOnTravel = TagOnCompanion()
+            #查找tag表里面是否有tag
+            tags = Tag.objects.filter(content = name)
+            if len(tags) == 0:
+                #新创建tag加入tag表
+                tag = Tag()
+                tag.content = name
+                tag.read = 0
+                tag.forbidden = 2
+                tag.save()
+            else:
+                tag = tags.first()
+            tagOnCompanion_list = TagOnCompanion.objects.filter(tag=tag,companion=companion,type=1)
+            if len(tagOnCompanion_list) == 0:
+                tagOnTravel.tag = tag
+                tagOnTravel.companion=companion
+                tagOnTravel.type = 1
+                tagOnTravel.save()
+        return Response(True)
+
+    @action(methods=['POST'], detail=False, url_path='saveComEndTextTags')
+    def saveComEndTextTags(self, request, *args, **kwargs):
+        companion_id = request.data.get('companion_id')
+        companion = Companion.objects.filter(id=companion_id).first()
+        names = request.data.get('names')
+        for name in names:
+            tag = None
+            tagOnTravel = TagOnCompanion()
+            #查找tag表里面是否有tag
+            tags = Tag.objects.filter(content = name)
+            if len(tags) == 0:
+                #新创建tag加入tag表
+                tag = Tag()
+                tag.content = name
+                tag.read = 0
+                tag.forbidden = 2
+                tag.save()
+            else:
+                tag = tags.first()
+            tagOnCompanion_list = TagOnCompanion.objects.filter(tag=tag,companion=companion,type=0)
+            if len(tagOnCompanion_list) == 0:
+                tagOnTravel.tag = tag
+                tagOnTravel.companion=companion
+                tagOnTravel.type = 0
+                tagOnTravel.save()
+        return Response(True)
+
