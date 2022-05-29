@@ -2,7 +2,7 @@ import pickle
 import pandas as pd
 import sqlite3
 import numpy as np
-from recommend import constants
+import constants
 
 def getData():
     db = sqlite3.connect(constants.DB)

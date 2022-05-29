@@ -17,7 +17,7 @@ from app.utilities import permission
 from app.response import *
 from utilities import conversion, permission as _permission, filters
 from django.core.files.uploadedfile import UploadedFile
-from recommend.recInterface import getUserLike, getKNNitem
+from recommend.rec import getUserLike
 
 
 class TravelFilterBackend(filters.QueryFilterBackend):

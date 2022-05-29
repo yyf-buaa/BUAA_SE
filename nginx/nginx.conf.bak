@@ -10,10 +10,7 @@ http {
     sendfile        on;
     keepalive_timeout  65;
     server {
-        listen       443 ssl;
-        ssl_certificate cert.pem;
-        ssl_certificate_key cert.key;
-
+	listen 9000;
         server_name  localhost;
         client_max_body_size 20m;
         location / {

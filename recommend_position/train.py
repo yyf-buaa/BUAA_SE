@@ -1,12 +1,12 @@
-from model import rec_model
-from dataset import TravelDataset
+from model import rec_model_2
+from dataset import PosDataset
 from torch.utils.data import DataLoader, random_split
 import torch
 import torch.optim as optim
 import torch.nn as nn
 import constants
 from getData import getData
-from recInterface import saveTravelAndUserFeature
+from recInterface import savePosAndUserFeature
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -25,16 +25,14 @@ user_max_dict = {
 }
 
 item_max_dict = {
-    'itemID': int(line[1]) + 1,
-    'ipositionID': 9999
+    'itemID': 9999
 }
-
 
 def train(model, num_epochs=50, lr=0.0001, batch_size=16):
     loss_function = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=lr)
 
-    datasets = TravelDataset(pkl_file=constants.dataPath)
+    datasets = PosDataset(pkl_file=constants.dataPath)
     train_data, eval_data = random_split(datasets, [round(0.9 * total), round(0.1 * total)],
                                          generator=torch.Generator().manual_seed(42))
     train_dataloader = DataLoader(datasets, batch_size=batch_size, shuffle=True)
@@ -78,15 +76,10 @@ def train(model, num_epochs=50, lr=0.0001, batch_size=16):
 
 
 if __name__ == '__main__':
-    model = rec_model(user_max_dict=user_max_dict, item_max_dict=item_max_dict)
+    model = rec_model_2(user_max_dict=user_max_dict, item_max_dict=item_max_dict)
     model = model.to(device)
 
     # train model
     train(model=model, num_epochs=constants.epochs, lr=constants.lr, batch_size=constants.batch_size)
     torch.save(model.state_dict(), constants.modelParams)
-    saveTravelAndUserFeature(model=model, batch_size=constants.batch_size)
-
-    # test recsys
-    # from recInterface import getKNNitem
-    # print(getKNNitem(itemID=1, itemName='user', K=2))
-    # print(getUserMostLike(uid=100))
+    savePosAndUserFeature(model=model, batch_size=constants.batch_size)

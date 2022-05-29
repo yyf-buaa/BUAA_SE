@@ -4,14 +4,14 @@ import torch
 from torch.utils.data import DataLoader
 
 import constants
-from dataset import TravelDataset
+from dataset import PosDataset
 
 import numpy as np
 import pickle as pkl
 
 
-def saveTravelAndUserFeature(model, batch_size):
-    datasets = TravelDataset(pkl_file=constants.dataPath, drop_dup=True)
+def savePosAndUserFeature(model, batch_size):
+    datasets = PosDataset(pkl_file=constants.dataPath, drop_dup=True)
     dataloader = DataLoader(datasets, batch_size=batch_size, shuffle=False, num_workers=4)
 
     user_feature_dict = {}
@@ -35,12 +35,11 @@ def saveTravelAndUserFeature(model, batch_size):
                 upositionID = user_inputs['upositionID'][i]
 
                 itemID = item_inputs['itemID'][i]
-                ipositionID = item_inputs['ipositionID'][i]
 
                 if userID.item() not in users.keys():
                     users[userID.item()] = {'userID': userID, 'upositionID': upositionID}
                 if itemID.item() not in items.keys():
-                    items[itemID.item()] = {'itemID': itemID, 'ipositionID': ipositionID}
+                    items[itemID.item()] = {'itemID': itemID}
 
                 if userID.item() not in user_feature_dict.keys():
                     user_feature_dict[userID.item()] = feature_user[i]
@@ -57,15 +56,16 @@ def saveTravelAndUserFeature(model, batch_size):
 
 
 '''
-临近的用户or游记 K推荐个数
+临近的用户or地点 K推荐个数
 # getKNNitem(ID, 'user', 2)  # userID=ID的相似用户
-# getKNNitem(ID, 'item', 3)  # itemID=ID的相似游记
+# getKNNitem(ID, 'item', 3)  # itemID=ID的相似地点
+感觉没啥用
 '''
 
 
 # 记得检查ID是否存在
+# 推荐相似游记
 def getKNNitem(itemID, itemName, K=1):
-
     # get cosine similarity between vec1 and vec2
     def getCosineSimilarity(vec1, vec2):
         cosine_sim = float(vec1.dot(vec2.T).item()) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
@@ -82,5 +82,23 @@ def getKNNitem(itemID, itemName, K=1):
     return [id_sim[i][0] for i in range(K + 1)][1:]
 
 
+# 获取用户对游记喜爱顺序
+def getUserLike(uid):
+    feature_data = pkl.load(open(constants.featureData, 'rb'))
+    user_item_ids = pkl.load(open(constants.featureDict, 'rb'))
 
+    feature_user = feature_data['feature_user'][uid]
 
+    item_dict = user_item_ids['item']
+    mid_rank = {}
+    for mid in item_dict.keys():
+        feature_item = feature_data['feature_item'][mid]
+        rank = np.dot(feature_user, feature_item.T)
+        if mid not in mid_rank.keys():
+            mid_rank[mid] = rank.item()
+
+    mid_rank = [(mid, rank) for mid, rank in mid_rank.items()]
+    print(sorted(mid_rank, key=lambda x: x[1], reverse=True))
+    mids = [str(mid[0]) + '00' for mid in sorted(mid_rank, key=lambda x: x[1], reverse=True)]
+
+    return mids

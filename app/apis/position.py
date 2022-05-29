@@ -10,6 +10,7 @@ from app.response import *
 from main.constants import *
 from utilities.location import nearest
 from utilities import conversion, permission as _permission, filters
+from recommend_position.rec import getUserLike
 
 
 class PositionFilterBackend(filters.QueryFilterBackend):
@@ -94,13 +95,26 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
 
     @action(methods=['GET'], detail=False, url_path='hot')
     def hot_positions(self, request, *args, **kwargs):
+        owner_id = _permission.user_check(request)
+        user = AppUser.objects.filter(id=owner_id)
+        if user:
+            try:
+                position_list = getUserLike(owner_id)
+                positions = Position.objects.filter(id__in=position_list)
+                positions = dict([(obj.id, obj) for obj in positions])
+                sortedPositions = [positions[id] for id in position_list]
+                serializerData = self.serializer_class(sortedPositions, many=True)
+                return Response(
+                    data={'count': len(serializerData.data), 'pages': len(serializerData.data) // 20 + 1, "next": "",
+                          'previous': "",
+                          'result': serializerData.data}, status=status.HTTP_200_OK)
+            except:
+                print('模型待更新')
         positions = Position.objects.filter(id__endswith='00')
         positions = positions.exclude(id__endswith='0000')
         addp = Position.objects.filter(id__endswith='0000', name__endswith='市')
         positions = positions | addp
 
-        owner_id = _permission.user_check(request)
-        user = AppUser.objects.filter(id=owner_id)
         if user:
             user = user.first()
             blackp = BlackPos.objects.filter(person=user, type='黑名单', position__in=positions)
