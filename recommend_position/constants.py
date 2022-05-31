@@ -1,8 +1,8 @@
 import os
 
 thisDIR = os.path.dirname(__file__)
-FACTOR_COLLECT = 2
-FACTOR_BLACK = -2
+FACTOR_COLLECT = 10
+FACTOR_BLACK = -10
 FACTOR_LIKED = 0.5
 FACTOR_COMMENT = 0.5
 FACTOR_JOIN = 0.5
@@ -14,4 +14,4 @@ featureData = thisDIR + '/Params/feature_data.pkl'
 featureDict = thisDIR + '/Params/user_pos_dict.pkl'
 epochs = 50
 batch_size = 16
-lr = 0.0001
+lr = 0.0005

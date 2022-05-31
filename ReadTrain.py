@@ -27,8 +27,8 @@ def readTrain(filename, conn):
     typename = result['typename']
     stationList = result['list']
     list_len = len(stationList)
-    date1 = pandas.to_datetime("2022-5-13", format='%Y-%m-%d')
-    for x in range(17):
+    date1 = pandas.to_datetime("2022-5-31", format='%Y-%m-%d')
+    for x in range(10):
         # print(date + datetime.timedelta(days=+1))
         date = date1 + datetime.timedelta(days=+x)
         startdate = date.strftime("%Y-%m-%d")

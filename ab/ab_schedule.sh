@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 DIR="$(cd `dirname $0`; pwd)"
 cd $DIR
-
 if [ $# -lt 1 ]
 then
     file="res.csv"
@@ -14,8 +13,8 @@ f(){
 }
 
 \cp -rf "../db.sqlite3" "../db.sqlite3.ab.bak"
-
 echo "testcase,total,workers,success_rate,rps" >"$file"
+
 while read line
 do
     res=`bash ab_postprocess.sh $line`

@@ -7,7 +7,7 @@ from math import atan, pi
 
 
 def getNorm(x):
-    return atan(x) * 2 / pi
+    return x
 
 
 class PosDataset(Dataset):

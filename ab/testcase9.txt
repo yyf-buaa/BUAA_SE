@@ -1,0 +1,4 @@
+http://114.116.197.121:9000/api/core/trains/getTransfer/?departure=成都&&arrival=兰州&&date=2022-06-02
+GET
+application/json
+token-auth: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6OSwiaWF0IjoxNjUzOTc2MjM1LCJleHAiOjE2NTQwNjI2MzV9.-iizjCOW6fwh9sU1VH2yp434VoqSneBzwkHGkIg3ZoE

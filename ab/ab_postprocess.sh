@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 DIR="$(cd `dirname $0`; pwd)"
 cd $DIR
-
 file=$1
 shift
-
 extract(){
     extract=`echo "$2" | grep "$1" | sed 's/[^0-9]*\([0-9.]\+\).*/\1/g'`
 }
 
+# shellcheck disable=SC2068
 res=`bash ab.sh $@ <"$file"`
 
 extract "Complete requests" "$res"
@@ -31,7 +30,7 @@ else
     fi
 fi
 
-suc=`awk "BEGIN{print 1-($fail/$comp)}"`
+suc=`awk 'BEGIN{print 1-($fail/$comp)}'`
 extract "Requests per second" "$res"
 rps=$extract
 echo -e "$res" >&2

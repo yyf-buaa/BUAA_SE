@@ -11,6 +11,7 @@ from main.constants import *
 from utilities.location import nearest
 from utilities import conversion, permission as _permission, filters
 from recommend_position.rec import getUserLike
+import random
 
 
 class PositionFilterBackend(filters.QueryFilterBackend):
@@ -97,17 +98,26 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
     def hot_positions(self, request, *args, **kwargs):
         owner_id = _permission.user_check(request)
         user = AppUser.objects.filter(id=owner_id)
+        step = 10
         if user:
             try:
                 position_list = getUserLike(owner_id)
+                li = [position_list[i:i+step] for i in range(0, len(position_list), step)]
+                final = []
+                for list in li:
+                    random.shuffle(list)
+                    final.extend(list)
                 positions = Position.objects.filter(id__in=position_list)
                 positions = dict([(obj.id, obj) for obj in positions])
-                sortedPositions = [positions[id] for id in position_list]
+                sortedPositions = [positions[id] for id in final]
+                # serializerData = self.serializer_class(sortedPositions, many=True)
+                page = self.paginate_queryset(sortedPositions)
+                if page is not None:
+                    serializerData = self.serializer_class(page, many=True)
+                    data = serializerData.data
+                    return self.get_paginated_response(data)
                 serializerData = self.serializer_class(sortedPositions, many=True)
-                return Response(
-                    data={'count': len(serializerData.data), 'pages': len(serializerData.data) // 20 + 1, "next": "",
-                          'previous': "",
-                          'result': serializerData.data}, status=status.HTTP_200_OK)
+                return Response(serializerData.data)
             except:
                 print('模型待更新')
         positions = Position.objects.filter(id__endswith='00')
@@ -126,10 +136,20 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             for black in blackp:
                 positions = positions.exclude(id=black.position_id)
         hot = positions.order_by('-heat')
+        page = self.paginate_queryset(hot)
+        if page is not None:
+            serializerData = self.serializer_class(page, many=True)
+            data = serializerData.data
+            li = [data[i:i+step] for i in range(0, len(data), step)]
+            final = []
+            for list in li:
+                random.shuffle(list)
+                final.extend(list)
+            return self.get_paginated_response(final)
         hot = self.serializer_class(hot, many=True)
         return Response(
             data={'count': positions.count(), 'pages': positions.count() // 20 + 1, "next": "", 'previous': "",
-                  'result': hot.data}, status=status.HTTP_200_OK)
+                  'results': hot.data}, status=status.HTTP_200_OK)
 
     @action(methods=['GET'], detail=False, url_path='recommend')
     def recommend(self, request, *args, **kwargs):

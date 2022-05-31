@@ -1,3 +1,4 @@
+import datetime
 import pickle
 import pandas as pd
 import sqlite3
@@ -25,8 +26,14 @@ def getData():
 
     # item
     itemList = dict()
+    now = datetime.datetime.now()
+    limit = now + datetime.timedelta(days=-30)
     content = cursor.execute(
-        "SELECT app_travel.id, app_address.city_position_id from app_travel, app_address WHERE app_travel.position_id=app_address.id")
+        "SELECT app_travel.id, app_address.city_position_id "
+        "from app_travel, app_address "
+        "WHERE app_travel.position_id=app_address.id "
+        "AND (app_travel.last_read>='%s' OR app_travel.time>='%s')"
+        % (limit.strftime("%Y-%m-%d"), limit.strftime("%Y-%m-%d")))
     for row in content:
         item = dict()
         item['itemID'] = row[0]

@@ -1,4 +1,4 @@
-http://localhost:8100/api/core/companions/7/comments/
+http://localhost:8000/api/core/companions/1/comments/
 POST testcase7_data.txt
 application/json
-token-auth: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjowLCJleHAiOjMyNTM2ODUwMzk5fQ.4qq7zWv-fSINXhUhnOJZZR-QOHs0UoR6FZUNlvtZ4Xc
+token-auth: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6OSwiaWF0IjoxNjUzOTc2MjM1LCJleHAiOjE2NTQwNjI2MzV9.-iizjCOW6fwh9sU1VH2yp434VoqSneBzwkHGkIg3ZoE

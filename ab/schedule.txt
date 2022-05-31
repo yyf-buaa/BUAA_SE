@@ -6,6 +6,8 @@ testcase5.txt 1000 100
 testcase6.txt 1000 100
 testcase7.txt 1000 100
 testcase8.txt 1000 100
+testcase9.txt 1000 100
+testcase10.txt 1000 100
 testcase1.txt 1000 200
 testcase2.txt 1000 200
 testcase3.txt 1000 200
@@ -14,6 +16,8 @@ testcase5.txt 1000 200
 testcase6.txt 1000 200
 testcase7.txt 1000 200
 testcase8.txt 1000 200
+testcase9.txt 1000 200
+testcase10.txt 1000 200
 testcase1.txt 3000 500
 testcase2.txt 3000 500
 testcase3.txt 3000 500
@@ -22,11 +26,15 @@ testcase5.txt 3000 500
 testcase6.txt 3000 500
 testcase7.txt 3000 500
 testcase8.txt 3000 500
+testcase9.txt 3000 500
+testcase10.txt 3000 500
 testcase1.txt 5000 1000
 testcase2.txt 5000 1000
 testcase3.txt 5000 1000
 testcase4.txt 5000 1000
 testcase5.txt 5000 1000
 testcase6.txt 5000 1000
-testcase7.txt 5000 1000
-testcase8.txt 5000 1000
+testcase7.txt 3000 500
+testcase8.txt 3000 500
+testcase9.txt 3000 500
+testcase10.txt 3000 500
