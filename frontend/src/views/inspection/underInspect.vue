@@ -204,10 +204,10 @@ export default {
           let time_array = item.time.split("T");
           item.createTime = time_array[0] + " " + time_array[1].split("+")[0].split(".")[0];
           item.positionName = item.position == null ? null : item.position.name;
-          item.coverImage = item.cover == null ? null : "https://tra-fr-2.zhouyc.cc/api/core/images/" + item.cover + "/data/";
+          item.coverImage = item.cover == null ? null : "http://114.116.197.121:9000/api/core/images/" + item.cover + "/data/";
           item.recordImages = []
           item.images.forEach((image) => {
-            item.recordImages.push("https://tra-fr-2.zhouyc.cc/api/core/images/" + image + "/data/");
+            item.recordImages.push("http://114.116.197.121:9000/api/core/images/" + image + "/data/");
           })
 
           //get tags

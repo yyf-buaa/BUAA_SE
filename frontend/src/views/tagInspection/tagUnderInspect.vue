@@ -167,6 +167,7 @@ export default {
         data: {},
       }).then((res) => {
         this.data = res.data.results;
+        this.pageNum = res.data.pages;
         let key = 1;
         this.data.forEach((item)=>{
           item.key = key + '';

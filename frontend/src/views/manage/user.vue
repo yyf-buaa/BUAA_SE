@@ -177,7 +177,7 @@ export default {
           item.createTime = time_array[0] + " " + time_array[1].split("+")[0].split(".")[0];
           item.positionName = item.position == null ? null : item.position.name;
           item.gender = item.gender == '0' ? '男' : '女';
-          item.iconImage = item.icon == null ? null : "https://tra-fr-2.zhouyc.cc/api/core/images/" + item.icon + "/data/";
+          item.iconImage = item.icon == null ? null : "http://114.116.197.121:9000/api/core/images/" + item.icon + "/data/";
         })
         this.panes[0].data = this.data;
         this.spinning = false;

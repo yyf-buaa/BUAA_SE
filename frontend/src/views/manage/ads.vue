@@ -555,7 +555,7 @@ export default {
           item.preTitle = item.title;
           item.preContent = item.content;
           item.preUrl = item.url;
-          item.coverImage = item.cover == null ? null : "https://tra-fr-2.zhouyc.cc/api/core/images/" + item.cover.id + "/data/";
+          item.coverImage = item.cover == null ? null : "http://114.116.197.121:9000/api/core/images/" + item.cover.id + "/data/";
         //   item.fileList = [{
         //   uid: '-1',
         //   name: 'xxx.png',

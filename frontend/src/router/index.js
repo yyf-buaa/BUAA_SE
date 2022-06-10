@@ -125,9 +125,11 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  //mode: 'history',
+  mode: 'hash',
+  scrollBehavior: () => ({ y: 0 }),
   base: process.env.BASE_URL,
-  routes
+  routes:routes
 })
 
 router.beforeEach((to, from, next) => {

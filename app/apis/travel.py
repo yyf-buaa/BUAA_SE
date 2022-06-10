@@ -176,7 +176,7 @@ class TravelApis(viewsets.ModelViewSet):
     def newRecommend(self, request, *args, **kwargs):
         owner_id = _permission.user_check(request)
         user = AppUser.objects.filter(id=owner_id)
-        step = 5
+        step = 10
         if user:
             try:
                 travel_list = getUserLike(owner_id)
@@ -197,9 +197,9 @@ class TravelApis(viewsets.ModelViewSet):
                         d['liked'] = False
                 li = [data[i:i + step] for i in range(0, len(data), step)]
                 final = []
-                for list in li:
-                    random.shuffle(list)
-                    final.extend(list)
+                for x in li:
+                    random.shuffle(x)
+                    final.extend(x)
                 return Response({'count': len(final), 'data': final}, status=status.HTTP_200_OK)
             except:
                 travels = Travel.objects.all()

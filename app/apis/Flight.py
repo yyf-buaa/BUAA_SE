@@ -65,27 +65,6 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         positions = positions.exclude(id__endswith='0000')
         addp = Position.objects.filter(id__endswith='0000', name__endswith='市')
         positions = positions | addp
-        for position in positions:
-            heat = 10
-            # 本地点游记
-            travels = Travel.objects.filter(owner__position__city_position=position)
-            heat += travels.count() * FACTOR_TRAVEL_CREATE_GLOBAL
-            # 游记点赞数he阅读数
-            for travel in travels:
-                heat += travel.read_total * FACTOR_TRAVEL_READ_GLOBAL + travel.likes.count() * FACTOR_TRAVEL_LIKE_GLOBAL
-            # 计划出行数
-            # plans = Plan.objects.filter(position=position)
-            # heat += plans.count() * FACTOR_PLAN_GLOBAL
-            # 同行活动
-            companions = Companion.objects.filter(owner__position__city_position=position)
-            heat += companions.count() * FACTOR_COMPANION_CREATE_GLOBAL
-            for companion in companions:
-                heat += companion.fellows.count() * FACTOR_COMPANION_PARTICIPATE_GLOBAL
-            # 航班数
-            flights = Flight.objects.filter(endcity=position.name[:-1])
-            heat += flights.count() * FACTOR_FLIGHT
-            setattr(position, 'heat', heat)
-            position.save()
         owner_id = _permission.user_check(request)
         if owner_id <= 0:
             return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
@@ -101,8 +80,8 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         flights = Flight.objects.filter(id=0)
         for i in range(5):
             arrival = hot[i].name
-            date = datetime.datetime.now()
-            flight = Flight.objects.filter(city=departure[:-1], endcity=arrival[:-1], departdate=date.date(), departtime__gt=date.time())
+            date = datetime.datetime.now() + datetime.timedelta(days=+1)
+            flight = Flight.objects.filter(city=departure[:-1], endcity=arrival[:-1], departdate=date.date())
             if len(flight) == 0:
                 break
             for f in flight:

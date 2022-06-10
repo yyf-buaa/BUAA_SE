@@ -42,6 +42,8 @@ def train(model, num_epochs=50, lr=0.0001, batch_size=16):
 
     for epoch in range(num_epochs):
         loss_all = 0
+        if epoch == 30:
+            optimizer = optim.Adam(model.parameters(), lr=0.0001)
         for i_batch, sample_batch in enumerate(train_dataloader):
 
             user_inputs = sample_batch['user_inputs']
