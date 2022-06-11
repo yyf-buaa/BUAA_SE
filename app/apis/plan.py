@@ -88,10 +88,12 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             result_list.append(result)
         return Response(PlanSerSerializer(result_list,many=True).data,status = status.HTTP_200_OK)
 
-    #查询一个交通计划是否已经添加
+        #查询一个交通计划是否已经添加
     @action(methods=['POST'], detail=False, url_path='searchMyPlan')
     def searchMyPlan(self,request, *args, **kwargs):
         request_user = _permission.user_check(request)
+        isAdd=False
+        isPal=False
         if request_user <= 0:
             return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
         type = request.data.get('type')
@@ -102,11 +104,22 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             to1 = request.data.get('to1')
             owner = AppUser.objects.filter(id=request_user).first()
             content = id1 + ':' + type1 + ':' + from1 + '+' + to1
-            plan_set = Plan.objects.filter(owner = owner,content=content)
+            #plan_set = Plan.objects.filter(owner = owner,content=content)
+            plan_set = Plan.objects.filter(owner=owner, content=content)
             if len(plan_set)>0:
-                return Response(True, status=status.HTTP_200_OK)
+                #return Response(True, status=status.HTTP_200_OK)
+                isAdd = True
             else:
-                return Response(False, status=status.HTTP_200_OK)
+                #return Response(False, status=status.HTTP_200_OK)
+                isAdd = False
+            plan_comp_set1 = Plan_Comp.objects.filter(person1=request_user, content=content)
+            plan_comp_set2 = Plan_Comp.objects.filter(person2=request_user, content=content)
+            if len(plan_comp_set1)>0 or len(plan_comp_set2)>0:
+                isPal = True
+            else:
+                isPal = False
+            return Response({"isAdd":isAdd,"isPal":isPal},status=status.HTTP_200_OK)
+
         else:
             id1 = request.data.get('id1')
             type1 = request.data.get('type1')
@@ -120,10 +133,18 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             content = id1 + ':' + type1 + ':' + from1 + '+' + to1 + '-' + id2 + ':' + type2 + ':' + from2 + '+' + to2
             plan_set = Plan.objects.filter(owner=owner, content=content)
             if len(plan_set) > 0:
-                return Response(True, status=status.HTTP_200_OK)
+                # return Response(True, status=status.HTTP_200_OK)
+                isAdd = True
             else:
-                return Response(False, status=status.HTTP_200_OK)
-
+                # return Response(False, status=status.HTTP_200_OK)
+                isAdd = False
+            plan_comp_set1 = Plan_Comp.objects.filter(person1=request_user, content=content)
+            plan_comp_set2 = Plan_Comp.objects.filter(person2=request_user, content=content)
+            if len(plan_comp_set1) > 0 or len(plan_comp_set2) > 0:
+                isPal = True
+            else:
+                isPal = False
+            return Response({"isAdd":isAdd,"isPal":isPal}, status=status.HTTP_200_OK)
     #删除一个出行计划
     @action(methods=['POST'], detail=False, url_path='deleteMyPlan')
     def deleteMyPlan(self,request, *args, **kwargs):

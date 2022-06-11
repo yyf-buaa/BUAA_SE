@@ -46,6 +46,8 @@ class TrainApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         priceList = TrainPriceList.objects.filter(owner_id=0)
         for train in trains:
             prices = TrainPriceList.objects.filter(owner=train)
+            if len(prices):
+                prices = prices.order_by('price')[:1]
             priceList = priceList | prices
         priceList = priceList.order_by('price')
         serializer_train = PriceTrainListSerializer(priceList, many=True)
