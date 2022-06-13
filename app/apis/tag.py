@@ -4,8 +4,9 @@ from rest_framework.exceptions import ParseError, NotAcceptable, PermissionDenie
 from rest_framework.decorators import action
 from django.conf import settings
 
-from app.models import Tag, TagOnTravel, TagOnCompanion,Companion,Travel
-from app.serializers import TagSerializer, TagOnTravelSerializer, TagOnCompanionSerializer, TagAndTravelSerializer, TagAndCompanionSerializer
+from app.models import Tag, TagOnTravel, TagOnCompanion, Companion, Travel,AppUser
+from app.serializers import TagSerializer, TagOnTravelSerializer, TagOnCompanionSerializer, TagAndTravelSerializer, \
+    TagAndCompanionSerializer
 import datetime
 
 from django.db.models import QuerySet
@@ -18,6 +19,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
               viewsets.mixins.RetrieveModelMixin):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
 
 class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
               viewsets.mixins.RetrieveModelMixin):
@@ -40,7 +42,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             tag = tag.first()
             return Response({'read': tag.read}, status=status.HTTP_200_OK)
         return Response('tag未创建', status=status.HTTP_400_BAD_REQUEST)
-    
+
     @action(methods=['GET'], detail=False, url_path='searchTaggedTravels')
     def getTaggedTravel(self, request, *args, **kwargs):
         content = request.GET.get('content')
@@ -71,7 +73,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                         data['travel']['liked'] = 1 if obj.travel.likes.filter(id=request_user) else 0
                     else:
                         data['travel']['liked'] = 0
-                #for data in datas:
+                # for data in datas:
                 #    if request_user > 0:
                 #        data['travel']['liked'] = 1 if data['travel']['owner']['id'] == request_user else 0
                 #    else:
@@ -84,7 +86,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                     data['travel']['liked'] = 1 if obj.travel.likes.filter(id=request_user) else 0
                 else:
                     data['travel']['liked'] = 0
-            #for data in datas:
+            # for data in datas:
             #    if request_user > 0:
             #        data['travel']['liked'] = 1 if data['travel']['owner']['id'] == request_user else 0
             #    else:
@@ -116,14 +118,14 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
     @action(methods=['GET'], detail=False, url_path='getTravelTags')
     def getTravelTags(self, request, *args, **kwargs):
         travel_id = request.GET.get('travel_id')
-        travel = Travel.objects.filter(id = travel_id).first()
+        travel = Travel.objects.filter(id=travel_id).first()
         tag_set = TagOnTravel.objects.filter(travel=travel)
         tag_val_set = []
         for tagOnTravel in tag_set:
             if tagOnTravel.tag.forbidden == 0:
                 tag_val_set.append(tagOnTravel)
-        tag_ser = TagOnTravelSerializer(tag_val_set,many=True)
-        return Response(tag_ser.data,status=status.HTTP_200_OK)
+        tag_ser = TagOnTravelSerializer(tag_val_set, many=True)
+        return Response(tag_ser.data, status=status.HTTP_200_OK)
 
     @action(methods=['GET'], detail=False, url_path='getCompanionTags')
     def getCompanionTags(self, request, *args, **kwargs):
@@ -136,34 +138,39 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 tag_val_set.append(tagOnTravel)
         tag_ser = TagOnCompanionSerializer(tag_set, many=True)
         return Response(tag_ser.data, status=status.HTTP_200_OK)
-        
+
     @action(methods=['GET'], detail=False, url_path='getTagList')
     def getTagList(self, request, *args, **kwargs):
         forbidden = 0
-        tags = Tag.objects.filter(forbidden=forbidden)
-        tags_ser = TagSerializer(tags,many = True)
+        tags = Tag.objects.filter(forbidden=forbidden).order_by('-read')[0:19]
+        tags_ser = TagSerializer(tags, many=True)
         return Response(tags_ser.data, status=status.HTTP_200_OK)
 
     @action(methods=['POST'], detail=False, url_path='saveTravelInTextTags')
     def saveTravelInTextTags(self, request, *args, **kwargs):
+        request_user = _permission.user_check(request)
+        if request_user <= 0:
+            return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
+        user = AppUser.objects.filter(id=request_user).first()
         travel_id = request.data.get('travel_id')
         travel = Travel.objects.filter(id=travel_id).first()
         names = request.data.get('names')
         for name in names:
             tag = None
             tagOnTravel = TagOnTravel()
-            #查找tag表里面是否有tag
-            tags = Tag.objects.filter(content = name)
+            # 查找tag表里面是否有tag
+            tags = Tag.objects.filter(content=name)
             if len(tags) == 0:
-                #新创建tag加入tag表
+                # 新创建tag加入tag表
                 tag = Tag()
                 tag.content = name
                 tag.read = 0
                 tag.forbidden = 2
+                tag.user = user
                 tag.save()
             else:
                 tag = tags.first()
-            tagOnTravel_list = TagOnTravel.objects.filter(tag=tag,travel=travel,type=1)
+            tagOnTravel_list = TagOnTravel.objects.filter(tag=tag, travel=travel, type=1)
             if len(tagOnTravel_list) == 0:
                 tagOnTravel.tag = tag
                 tagOnTravel.travel = travel
@@ -173,24 +180,29 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
 
     @action(methods=['POST'], detail=False, url_path='saveTravelEndTextTags')
     def saveTravelEndTextTags(self, request, *args, **kwargs):
+        request_user = _permission.user_check(request)
+        if request_user <= 0:
+            return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
+        user = AppUser.objects.filter(id=request_user).first()
         travel_id = request.data.get('travel_id')
         travel = Travel.objects.filter(id=travel_id).first()
         names = request.data.get('names')
         for name in names:
             tag = None
             tagOnTravel = TagOnTravel()
-            #查找tag表里面是否有tag
-            tags = Tag.objects.filter(content = name)
+            # 查找tag表里面是否有tag
+            tags = Tag.objects.filter(content=name)
             if len(tags) == 0:
-                #新创建tag加入tag表
+                # 新创建tag加入tag表
                 tag = Tag()
                 tag.content = name
                 tag.read = 0
                 tag.forbidden = 2
+                tag.user = user
                 tag.save()
             else:
                 tag = tags.first()
-            tagOnTravel_list = TagOnTravel.objects.filter(tag=tag,travel=travel,type=0)
+            tagOnTravel_list = TagOnTravel.objects.filter(tag=tag, travel=travel, type=0)
             if len(tagOnTravel_list) == 0:
                 tagOnTravel.tag = tag
                 tagOnTravel.travel = travel
@@ -203,51 +215,61 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         companion_id = request.data.get('companion_id')
         companion = Companion.objects.filter(id=companion_id).first()
         names = request.data.get('names')
+        request_user = _permission.user_check(request)
+        if request_user <= 0:
+            return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
+        user = AppUser.objects.filter(id=request_user).first()
         for name in names:
             tag = None
             tagOnTravel = TagOnCompanion()
-            #查找tag表里面是否有tag
-            tags = Tag.objects.filter(content = name)
+            # 查找tag表里面是否有tag
+            tags = Tag.objects.filter(content=name)
             if len(tags) == 0:
-                #新创建tag加入tag表
+                # 新创建tag加入tag表
                 tag = Tag()
                 tag.content = name
                 tag.read = 0
                 tag.forbidden = 2
+                tag.user = user
                 tag.save()
             else:
                 tag = tags.first()
-            tagOnCompanion_list = TagOnCompanion.objects.filter(tag=tag,companion=companion,type=1)
+            tagOnCompanion_list = TagOnCompanion.objects.filter(tag=tag, companion=companion, type=1)
             if len(tagOnCompanion_list) == 0:
                 tagOnTravel.tag = tag
-                tagOnTravel.companion=companion
+                tagOnTravel.companion = companion
                 tagOnTravel.type = 1
                 tagOnTravel.save()
         return Response(True)
 
     @action(methods=['POST'], detail=False, url_path='saveComEndTextTags')
     def saveComEndTextTags(self, request, *args, **kwargs):
+        request_user = _permission.user_check(request)
+        if request_user <= 0:
+            return error_response(Error.NOT_LOGIN, 'Please login.', status=status.HTTP_403_FORBIDDEN)
+        user = AppUser.objects.filter(id=request_user).first()
         companion_id = request.data.get('companion_id')
         companion = Companion.objects.filter(id=companion_id).first()
         names = request.data.get('names')
         for name in names:
             tag = None
             tagOnTravel = TagOnCompanion()
-            #查找tag表里面是否有tag
-            tags = Tag.objects.filter(content = name)
+            # 查找tag表里面是否有tag
+            tags = Tag.objects.filter(content=name)
             if len(tags) == 0:
-                #新创建tag加入tag表
+                # 新创建tag加入tag表
                 tag = Tag()
                 tag.content = name
                 tag.read = 0
                 tag.forbidden = 2
+                tag.user = user
                 tag.save()
             else:
                 tag = tags.first()
-            tagOnCompanion_list = TagOnCompanion.objects.filter(tag=tag,companion=companion,type=0)
+            tagOnCompanion_list = TagOnCompanion.objects.filter(tag=tag, companion=companion, type=0)
             if len(tagOnCompanion_list) == 0:
                 tagOnTravel.tag = tag
-                tagOnTravel.companion=companion
+                tagOnTravel.companion = companion
                 tagOnTravel.type = 0
                 tagOnTravel.save()
         return Response(True)

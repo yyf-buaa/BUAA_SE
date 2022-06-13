@@ -73,6 +73,8 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             departure = user.position.city
         except:
             return error_response(Error.NOT_LOGIN, 'Please 完善信息.', status=status.HTTP_400_BAD_REQUEST)
+        if departure == '':
+            return error_response(Error.NOT_LOGIN, 'Please 完善信息.', status=status.HTTP_400_BAD_REQUEST)
         blackp = BlackPos.objects.filter(person=user)
         for black in blackp:
             positions = positions.exclude(id=black.position_id)
@@ -106,6 +108,8 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         try:
             departure = AppUser.objects.filter(id=request_user).first().position.city
         except:
+            return error_response(Error.NOT_LOGIN, 'Please 完善信息.', status=status.HTTP_400_BAD_REQUEST)
+        if departure == '':
             return error_response(Error.NOT_LOGIN, 'Please 完善信息.', status=status.HTTP_400_BAD_REQUEST)
         arrival = request.GET.get('position')
         date = datetime.datetime.now()
