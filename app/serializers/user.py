@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
         d1 = timezone.now()
         today = d1.strftime("%Y-%m-%d")
         num1 = Address.objects.filter(travel_record__owner=obj).values_list('position__id', flat=True).distinct().count()
-        plan_set = Plan.objects.filter(owner = obj,date__lte=today)
+        plan_set = Plan.objects.filter(owner = obj,date__lt=today)
         pos_set = set()
         for plan in plan_set:
             # 根据content split
@@ -68,7 +68,7 @@ class UserSerializer(serializers.ModelSerializer):
         num1 = obj.travel_records.count()
         d1 = timezone.now()
         today = d1.strftime("%Y-%m-%d")
-        plan_set = Plan.objects.filter(owner=obj, date__lte=today)
+        plan_set = Plan.objects.filter(owner=obj, date__lt=today)
         num2 = len(plan_set)
         return num1+num2
 

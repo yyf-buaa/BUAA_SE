@@ -109,7 +109,11 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                     final.extend(list)
                 positions = Position.objects.filter(id__in=position_list)
                 positions = dict([(obj.id, obj) for obj in positions])
-                sortedPositions = [positions[id] for id in final]
+                
+                sortedPositions = []
+                for id in final:
+                    if positions[id].visibility:
+                        sortedPositions.append(positions[id])
                 # serializerData = self.serializer_class(sortedPositions, many=True)
                 page = self.paginate_queryset(sortedPositions)
                 if page is not None:
@@ -124,7 +128,7 @@ class PositionApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         positions = positions.exclude(id__endswith='0000')
         addp = Position.objects.filter(id__endswith='0000', name__endswith='市')
         positions = positions | addp
-
+        positions = positions.filter(visibility=True)
         if user:
             user = user.first()
             blackp = BlackPos.objects.filter(person=user, type='黑名单', position__in=positions)

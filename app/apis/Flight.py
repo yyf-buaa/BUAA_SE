@@ -165,7 +165,9 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         blackPos_set = BlackPos.objects.filter(person=request_user, type='黑名单')
         position_list = []
         for blackPos in blackPos_set:
-            position_list.append(blackPos.position)
+            pos = blackPos.position
+            if pos.visibility:
+                position_list.append(pos)
         return Response(PositionSerializer(position_list, many=True).data, status=status.HTTP_200_OK)
 
     @action(methods=['GET'], detail=False, url_path='getMyFav')
@@ -176,7 +178,9 @@ class FlightApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
         blackPos_set = BlackPos.objects.filter(person=request_user, type='收藏')
         position_list = []
         for blackPos in blackPos_set:
-            position_list.append(blackPos.position)
+            pos = blackPos.position
+            if pos.visibility:
+                position_list.append(pos)
         return Response(PositionSerializer(position_list, many=True).data, status=status.HTTP_200_OK)
     @action(methods=['POST'], detail=False, url_path='isMyBlackPos')
     def isMyBlackPos(self, request, *args, **kwargs):

@@ -10,6 +10,7 @@ from app.serializers import AdminMessageSerializer,PlanSerSerializer
 from app.utilities import permission
 from app.response import *
 from utilities import conversion, filters, permission as _permission, date
+from django.utils import timezone
 
 class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                    viewsets.mixins.RetrieveModelMixin):
@@ -86,7 +87,7 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 result.from2 = content2.split(':')[2].split('+')[0]
                 result.to2 = content2.split(':')[2].split('+')[1]
             result_list.append(result)
-        return Response(PlanSerSerializer(result_list,many=True).data,status = status.HTTP_200_OK)
+        return Response({"plan":PlanSerSerializer(result_list,many=True).data, "today":timezone.now().strftime("%Y-%m-%d")},status = status.HTTP_200_OK)
 
         #查询一个交通计划是否已经添加
     @action(methods=['POST'], detail=False, url_path='searchMyPlan')
@@ -113,9 +114,9 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 #return Response(False, status=status.HTTP_200_OK)
                 isAdd = False
             plan_comp_set1 = Plan_Comp.objects.filter(person1=request_user, content=content)
-            plan_comp_set2 = Plan_Comp.objects.filter(person2=request_user, content=content)
-            if len(plan_comp_set1)>0 or len(plan_comp_set2)>0:
+            if len(plan_comp_set1)>0:
                 isPal = True
+                isAdd = True
             else:
                 isPal = False
             return Response({"isAdd":isAdd,"isPal":isPal},status=status.HTTP_200_OK)
@@ -139,9 +140,9 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 # return Response(False, status=status.HTTP_200_OK)
                 isAdd = False
             plan_comp_set1 = Plan_Comp.objects.filter(person1=request_user, content=content)
-            plan_comp_set2 = Plan_Comp.objects.filter(person2=request_user, content=content)
-            if len(plan_comp_set1) > 0 or len(plan_comp_set2) > 0:
+            if len(plan_comp_set1) > 0:
                 isPal = True
+                isAdd = True
             else:
                 isPal = False
             return Response({"isAdd":isAdd,"isPal":isPal}, status=status.HTTP_200_OK)
@@ -190,11 +191,6 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             plan.person2 = request.data.get('pal')
             plan.content = id1 + ':' + type1 + ':' + from1 + '+' + to1
             plan.save()
-            plan = Plan_Comp()
-            plan.person2 = request_user
-            plan.person1 = request.data.get('pal')
-            plan.content = id1 + ':' + type1 + ':' + from1 + '+' + to1
-            plan.save()
         else:
             id1 = request.data.get('id1')
             type1 = request.data.get('type1')
@@ -207,11 +203,6 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             plan = Plan_Comp()
             plan.person1 = request_user
             plan.person2 = request.data.get('pal')
-            plan.content = id1 + ':' + type1 + ':' + from1 + '+' + to1 + '-' + id2 + ':' + type2 + ':' + from2 + '+' + to2
-            plan.save()
-            plan = Plan_Comp()
-            plan.person2 = request_user
-            plan.person1 = request.data.get('pal')
             plan.content = id1 + ':' + type1 + ':' + from1 + '+' + to1 + '-' + id2 + ':' + type2 + ':' + from2 + '+' + to2
             plan.save()
         return Response(True, status=status.HTTP_200_OK)
@@ -273,11 +264,6 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             person2 = request.data.get('pal')
             content = id1 + ':' + type1 + ':' + from1 + '+' + to1
             Plan_Comp.objects.filter(person1 = person1,person2 = person2,content = content).delete()
-
-            person2 = request_user
-            person1 = request.data.get('pal')
-            content = id1 + ':' + type1 + ':' + from1 + '+' + to1
-            Plan_Comp.objects.filter(person1 = person1,person2 = person2,content = content).delete()
         else:
             id1 = request.data.get('id1')
             type1 = request.data.get('type1')
@@ -289,10 +275,6 @@ class PlanApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
             to2 = request.data.get('to2')
             person1 = request_user
             person2 = request.data.get('pal')
-            content = id1 + ':' + type1 + ':' + from1 + '+' + to1 + '-' + id2 + ':' + type2 + ':' + from2 + '+' + to2
-            Plan_Comp.objects.filter(person1=person1, person2=person2, content=content).delete()
-            person2 = request_user
-            person1 = request.data.get('pal')
             content = id1 + ':' + type1 + ':' + from1 + '+' + to1 + '-' + id2 + ':' + type2 + ':' + from2 + '+' + to2
             Plan_Comp.objects.filter(person1=person1, person2=person2, content=content).delete()
         return Response(True, status=status.HTTP_200_OK)

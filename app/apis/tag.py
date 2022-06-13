@@ -24,6 +24,14 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
+    @action(methods=['GET'], detail=False, url_path='getSimilarTag')
+    def getSimilarTag(self, request, *args, **kwargs):
+        content = request.GET.get('name')
+        tag = Tag.objects.filter(content__icontains=content, forbidden=settings.TAG_FORBIDDEN_FALSE).order_by('-read')
+        if tag:
+            return Response(TagSerializer(tag, many=True).data, status=status.HTTP_200_OK)
+        return Response('无', status=status.HTTP_400_BAD_REQUEST)
+
     @action(methods=['GET'], detail=False, url_path='getTagRead')
     def getTags(self, request, *args, **kwargs):
         content = request.GET.get('content')
