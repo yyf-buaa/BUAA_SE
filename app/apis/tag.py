@@ -29,7 +29,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
     @action(methods=['GET'], detail=False, url_path='getSimilarTag')
     def getSimilarTag(self, request, *args, **kwargs):
         content = request.GET.get('name')
-        tag = Tag.objects.filter(content__icontains=content, forbidden=settings.TAG_FORBIDDEN_FALSE).order_by('-read')
+        tag = Tag.objects.filter(content__icontains=content, forbidden=settings.TAG_FORBIDDEN_FALSE).order_by('-read')[0:20]
         if tag:
             return Response(TagSerializer(tag, many=True).data, status=status.HTTP_200_OK)
         return Response('无', status=status.HTTP_400_BAD_REQUEST)
@@ -142,7 +142,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
     @action(methods=['GET'], detail=False, url_path='getTagList')
     def getTagList(self, request, *args, **kwargs):
         forbidden = 0
-        tags = Tag.objects.filter(forbidden=forbidden).order_by('-read')[0:19]
+        tags = Tag.objects.filter(forbidden=forbidden).order_by('-read')[0:20]
         tags_ser = TagSerializer(tags, many=True)
         return Response(tags_ser.data, status=status.HTTP_200_OK)
 
@@ -165,7 +165,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 tag = Tag()
                 tag.content = name
                 tag.read = 0
-                tag.forbidden = 2
+                tag.forbidden = 0
                 tag.user = user
                 tag.save()
             else:
@@ -197,7 +197,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 tag = Tag()
                 tag.content = name
                 tag.read = 0
-                tag.forbidden = 2
+                tag.forbidden = 0
                 tag.user = user
                 tag.save()
             else:
@@ -229,7 +229,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 tag = Tag()
                 tag.content = name
                 tag.read = 0
-                tag.forbidden = 2
+                tag.forbidden = 0
                 tag.user = user
                 tag.save()
             else:
@@ -261,7 +261,7 @@ class TagApis(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin,
                 tag = Tag()
                 tag.content = name
                 tag.read = 0
-                tag.forbidden = 2
+                tag.forbidden = 0
                 tag.user = user
                 tag.save()
             else:

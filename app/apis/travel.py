@@ -176,7 +176,7 @@ class TravelApis(viewsets.ModelViewSet):
     def newRecommend(self, request, *args, **kwargs):
         owner_id = _permission.user_check(request)
         user = AppUser.objects.filter(id=owner_id)
-        step = 10
+        step = 5
         if user:
             try:
                 travel_list = getUserLike(owner_id)
@@ -187,7 +187,21 @@ class TravelApis(viewsets.ModelViewSet):
                     if id not in travels.keys():
                         continue
                     sotedTravels.append(travels[id])
-                
+                page = self.paginate_queryset(sotedTravels)
+                if page is not None:
+                    serializerData = self.serializer_class(page, many=True)
+                    data = serializerData.data
+                    for d, obj in zip(data, sotedTravels):
+                        if user:
+                            d['liked'] = True if obj.likes.filter(id=owner_id) else False
+                        else:
+                            d['liked'] = False
+                    li = [data[i:i + step] for i in range(0, len(data), step)]
+                    final = []
+                    for list in li:
+                        random.shuffle(list)
+                        final.extend(list)
+                    return self.get_paginated_response(final)
                 serializer = self.get_serializer(sotedTravels, many=True)
                 data = serializer.data
                 for d, obj in zip(data, sotedTravels):
@@ -197,29 +211,36 @@ class TravelApis(viewsets.ModelViewSet):
                         d['liked'] = False
                 li = [data[i:i + step] for i in range(0, len(data), step)]
                 final = []
-                for x in li:
-                    random.shuffle(x)
-                    final.extend(x)
-                return Response({'count': len(final), 'data': final}, status=status.HTTP_200_OK)
-            except:
-                travels = Travel.objects.all()
-                data = self.get_list_data(request, travels)
-                li = [data[i:i + step] for i in range(0, len(data), step)]
-                final = []
                 for list in li:
                     random.shuffle(list)
                     final.extend(list)
-                return Response({'count': len(final), 'data': final}, status=status.HTTP_200_OK)
-
-        travels = Travel.objects.all()
+                return Response(final)
+            except:
+                print('模型待更新')
+        travels = Travel.objects.all().order_by('-time')
+        page = self.paginate_queryset(travels)
+        if page is not None:
+            serializerData = self.serializer_class(page, many=True)
+            data = serializerData.data
+            for d, obj in zip(data, travels):
+                if user:
+                    d['liked'] = True if obj.likes.filter(id=owner_id) else False
+                else:
+                    d['liked'] = False
+            li = [data[i:i + step] for i in range(0, len(data), step)]
+            final = []
+            for list in li:
+                random.shuffle(list)
+                final.extend(list)
+            return self.get_paginated_response(final)
         data = self.get_list_data(request, travels)
         li = [data[i:i + step] for i in range(0, len(data), step)]
         final = []
         for list in li:
             random.shuffle(list)
             final.extend(list)
-        return Response({'count': len(final), 'data': final}, status=status.HTTP_200_OK)
-
+        return Response(final)
+    
     @action(methods=['POST', 'DELETE'], detail=True, url_path='image')
     def image(self, request, *args, **kwargs):
         if request.method == 'DELETE':

@@ -20,12 +20,12 @@ paramFile.close()
 total = int(line[0]) * int(line[1])
 
 user_max_dict = {
-    'userID': int(line[0]) + 1,
+    'userID': int(line[0]) + 2,
     'upositionID': 9999
 }
 
 item_max_dict = {
-    'itemID': int(line[1]) + 1,
+    'itemID': int(line[1]) + 10,
     'ipositionID': 9999
 }
 

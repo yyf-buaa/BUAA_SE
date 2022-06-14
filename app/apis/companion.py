@@ -13,6 +13,7 @@ from app.utilities import permission
 from . import PositionApis
 from utilities import permission as _permission, filters, conversion, date
 
+import datetime
 
 class CompanionFilterBackend(filters.QueryFilterBackend):
     filter_fields = [
@@ -164,18 +165,11 @@ class CompanionApis(viewsets.ModelViewSet):
 
     @action(methods=['GET'], detail=False, url_path='recommend')
     def recommend(self, request, *args, **kwargs):
-        count = conversion.get_int(request.query_params, 'count')
-        if count is None:
-            count = settings.POSITION_RECOMMEND_AMOUNT
-        else:
-            count = min(count, settings.POSITION_RECOMMEND_MAX_AMOUNT)
-        pos = PositionApis.recommend_positions(request, amount=count)
-
-        queryset = filters.random_filter(self.get_queryset().filter(position__position__id__in=pos), count)
-        if queryset.count() < count:
-            ids = queryset.values_list('id', flat=True)
-            queryset |= self.get_queryset().exclude(id__in=ids)
-
-        serializer = self.get_serializer(queryset, many=True)
-        data = serializer.data
-        return Response(data={'count': len(data), 'data': data})
+        now = datetime.datetime.now()
+        com = Companion.objects.filter(forbidden=0, deadline__gt=now.__str__()).order_by('-time')
+        page = self.paginate_queryset(com)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(com, many=True)
+        return Response(serializer.data)
